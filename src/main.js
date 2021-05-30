@@ -7,6 +7,12 @@ import './plugins/element.js'
 
 Vue.config.productionTip = false
 
+// 设置全局变量
+import global_ from './views/Base.vue'
+
+Vue.prototype.GLOBAL = global_;
+axios.defaults.baseURL = global_.BASE_URL;
+
 new Vue({
   router,
   store,
