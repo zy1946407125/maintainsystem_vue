@@ -114,7 +114,7 @@
                                                 sessionStorage.setItem('loginState', response.data.status);//存储登录状态
                                                 sessionStorage.setItem('user', JSON.stringify(response.data.user));//存储登录人
                                                 sessionStorage.setItem('token', response.data.token);//存储token
-                                                var path = "/" + that.selectedtype + "Index"
+                                                var path = "/" + that.selectedtype + "/index"
                                                 that.$router.push(path)
                                                 break
                                             }
