@@ -7,7 +7,6 @@ import Register from "../views/Register";
 import UpdatePassword from "../views/UpdatePassword";
 import UpdatePhone from "../views/UpdatePhone";
 
-import Test from "../views/userPage/Test";
 
 //管理员页面
 import AdminIndex from "../views/adminPage/AdminIndex";
@@ -117,11 +116,6 @@ const routes = [
         name: '普通用户--工单管理',
         component: UserIndex,
         children:[
-            {
-                path: '/user/test',
-                name: '测试',
-                component: Test,
-            },
             {
                 path: '/user/order',
                 name: '我的工单',

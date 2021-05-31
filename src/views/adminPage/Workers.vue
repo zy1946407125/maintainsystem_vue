@@ -75,7 +75,7 @@
                         let type = this.ruleForm.type
                         const token = sessionStorage.getItem("token");
                         params.append('token', token)
-                        params.append('wid', id)
+                        params.append('id', id)
                         params.append('type', type)
                         axios.post('/superAdmin/addWorker', params).then(function (response) {
                             that.loading = false
@@ -151,7 +151,7 @@
                 var token = sessionStorage.getItem("token")
                 var params = new URLSearchParams()
                 params.append('token', token)
-                params.append('wid', row.id)
+                params.append('id', row.id)
 
                 axios.post('/superAdmin/deleteWorker', params)
                     .then(function (response) {

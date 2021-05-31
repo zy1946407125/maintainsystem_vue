@@ -15,8 +15,6 @@
                             </el-menu-item>
                             <el-menu-item index="/user/addOrder" :class="$route.path=='/user/addOrder'?'is-active':''">新建工单
                             </el-menu-item>
-                            <el-menu-item index="/user/test" :class="$route.path=='/user/test'?'is-active':''">测试
-                            </el-menu-item>
                         </el-submenu>
                         <el-submenu index="2">
                             <template slot="title"><i class="el-icon-user"></i>设置</template>
