@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+
 import Login from "../views/Login";
+import Register from "../views/Register";
 
 //管理员页面
 import AdminIndex from "../views/adminPage/AdminIndex";
@@ -20,6 +23,11 @@ const routes = [
         path: '/',
         name: '登录',
         component: Login
+    },
+    {
+        path: '/register',
+        name: '注册',
+        component: Register
     },
     {
         path: '/admin/index',
@@ -45,7 +53,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     //无需拦截的页面
-    if (to.path === '/') {
+    if (to.path === '/' || to.path === '/register') {
         next();
     } else {
         //判断是否登录

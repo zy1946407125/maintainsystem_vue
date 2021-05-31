@@ -42,7 +42,7 @@
                 </el-form-item>
 
             </el-form>
-
+            <div style="color: black;cursor: pointer;" @click="registerUser">没有账号？立即注册</div>
         </div>
     </div>
 </template>
@@ -90,7 +90,9 @@
             };
         },
         methods: {
-            // ...mapMutations(['changeLogin']),
+            registerUser() {
+                this.$router.push('/register')
+            },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -104,7 +106,6 @@
                             params.append('password', that.ruleForm.password)
                             axios.post('/user/login', params)
                                 .then(function (response) {
-                                    console.log(response);
                                     if (response.data.status === 1) {
                                         var i = 0
                                         for (i = 0; i < response.data.user.role.length; i++) {
@@ -115,7 +116,7 @@
                                                 sessionStorage.setItem('user', JSON.stringify(response.data.user));//存储登录人
                                                 sessionStorage.setItem('token', response.data.token);//存储token
                                                 var path = "/" + that.selectedtype + "/index"
-                                                that.$router.push(path)
+                                                that.$router.replace(path)
                                                 break
                                             }
                                         }
