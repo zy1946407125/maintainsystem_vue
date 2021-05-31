@@ -248,8 +248,8 @@
                     params.append("startTime", this.valueTime[0])
                     params.append('endTime', this.valueTime[1])
                     params.append('pageNum', 1)
-                    params.append('pageSize', 5)
-                    axios.post('/user/selectOrders', params)
+                    params.append('pageSize', that.size)
+                    axios.post('/admin/selectOrders', params)
                         .then(function (response) {
                             that.loading = false
                             console.log(response)
