@@ -11,16 +11,6 @@
                 </el-option>
             </el-select>
             <div style="width: 20px"></div>
-            <span style="line-height: 50px">维修类别：</span>
-            <el-select v-model="type" placeholder="请选择" style="line-height: 50px">
-                <el-option
-                        v-for="item in optionsType"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
-            <div style="width: 10px"></div>
             <span style="line-height: 50px">选择起止时间：</span>
             <div style="line-height: 50px">
                 <el-date-picker
@@ -142,22 +132,14 @@
             return {
                 id: '',
                 status: '',
-                type: '',
                 valueTime: '',
                 size: 10,
                 tableData: null,
                 total: null,
-                loading: true,
-                optionsType: [],
+                loading: false,
                 optionsStatus: [{
                     value: '全部状态',
                     label: '全部状态'
-                }, {
-                    value: '未派单',
-                    label: '未派单'
-                }, {
-                    value: '用户已撤单',
-                    label: '用户已撤单'
                 }, {
                     value: '管理员已派单',
                     label: '管理员已派单'
@@ -233,7 +215,6 @@
         methods: {
             select() {
                 console.log(this.status)
-                console.log(this.type)
                 console.log(this.valueTime)
                 if (this.valueTime === "") {
                     this.$message.error("请输入查询时间")
@@ -244,12 +225,11 @@
                     var params = new URLSearchParams()
                     params.append('token', token)
                     params.append('status', this.status)
-                    params.append('type', this.type)
                     params.append("startTime", this.valueTime[0])
                     params.append('endTime', this.valueTime[1])
                     params.append('pageNum', 1)
-                    params.append('pageSize', this.size)
-                    axios.post('/user/selectOrders', params)
+                    params.append('pageSize', 5)
+                    axios.post('/worker/selectOrders', params)
                         .then(function (response) {
                             that.loading = false
                             console.log(response)
@@ -258,7 +238,7 @@
                                 that.$router.replace("/")
                             } else if (response.data.status === 445) {
                                 that.$message.error("您没有此操作权限")
-                            } else{
+                            } else {
                                 that.tableData = response.data.orders
                                 that.total = response.data.total
                             }
@@ -316,35 +296,7 @@
             }
         },
         created() {
-            const token = sessionStorage.getItem("token");
-            const that = this;
-            that.loading = true;
-            let params = new URLSearchParams();
-            params.append('token', token)
-            axios.post("/user/selectWorkType", params).then(function (response) {
-                that.loading = false
-                if (response.data.status === 444) {
-                    that.$message.error("您的登录信息已过期，请重新登录")
-                    that.$router.replace("/")
-                } else if (response.data.status === 445) {
-                    that.$message.error("您没有此操作权限")
-                } else {
-                    let tmp = {
-                        value: "全部类别",
-                        label: "全部类别"
-                    }
-                    that.optionsType.push(tmp)
-                    for (let i = 0; i < response.data.length; i++) {
-                        let tmp = {
-                            value: response.data[i].type,
-                            label: response.data[i].type
-                        }
-                        that.optionsType.push(tmp)
-                    }
-                    that.type = that.optionsType[0].value
-                    that.status = that.optionsStatus[0].value
-                }
-            })
+            this.status = this.optionsStatus[0].value
         }
     }
 </script>

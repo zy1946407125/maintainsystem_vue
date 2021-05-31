@@ -27,7 +27,7 @@
                         </el-submenu>
                         <el-submenu index="3">
                             <template slot="title"><i class="el-icon-user"></i>设置</template>
-                            <el-menu-item index="/admin/UpdatePassword" :class="$route.path=='/admin/UpdatePassword'?'is-active':''">修改密码
+                            <el-menu-item index="/admin/updatePassword" :class="$route.path=='/admin/updatePassword'?'is-active':''">修改密码
                             </el-menu-item>
                             <el-menu-item index="/admin/updatePhone" :class="$route.path=='/admin/updatePhone'?'is-active':''">修改手机号
                             </el-menu-item>

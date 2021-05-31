@@ -20,7 +20,9 @@ import Workers from "../views/adminPage/Workers";
 
 //维修人员页面
 import WorkerIndex from "../views/workerPage/WorkerIndex";
-
+import WorkerOrder from "../views/workerPage/WorkerOrder";
+import ConfirmOrder from "../views/workerPage/ConfirmOrder";
+import MaintainOrder from "../views/workerPage/MaintainOrder";
 
 //普通用户页面
 import UserIndex from "../views/userPage/UserIndex";
@@ -108,8 +110,42 @@ const routes = [
     },
     {
         path: '/worker/index',
-        name: '维修人员页面',
+        name: '维修人员--工单管理',
         component: WorkerIndex,
+        children:[
+            {
+                path: '/worker/order',
+                name: '我的工单',
+                component: WorkerOrder,
+            },
+            {
+                path: '/worker/confirmOrder',
+                name: '工单确认',
+                component: ConfirmOrder,
+            },
+            {
+                path: '/worker/maintainOrder',
+                name: '正在维修',
+                component: MaintainOrder,
+            },
+        ]
+    },
+    {
+        path: '/worker/index',
+        name: '维修人员--设置',
+        component: WorkerIndex,
+        children:[
+            {
+                path: '/worker/updatePassword',
+                name: '修改密码',
+                component: UpdatePassword,
+            },
+            {
+                path: '/worker/updatePhone',
+                name: '修改手机号',
+                component: UpdatePhone,
+            },
+        ]
     },
     {
         path: '/user/index',
