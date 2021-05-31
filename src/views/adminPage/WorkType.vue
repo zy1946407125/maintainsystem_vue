@@ -75,7 +75,7 @@
                     } else if (response.data === -1) {
                         that.$message.error("该维修类型已有工单，无法删除")
                     }else {
-                        that.$message.error("错误")
+                        that.$message.error("未知错误")
                     }
                 })
             },

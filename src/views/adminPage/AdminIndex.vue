@@ -8,8 +8,15 @@
             </el-header>
             <el-container style="height: 100%; border: 1px solid #eee">
                 <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-                    <el-menu :default-openeds="['1','2']" router>
+                    <el-menu :default-openeds="['1','2','3']" router>
                         <el-submenu index="1">
+                            <template slot="title"><i class="el-icon-user"></i>人员管理</template>
+                            <el-menu-item index="/admin/selectAdmins" :class="$route.path=='/admin/selectAdmins'?'is-active':''">管理人员
+                            </el-menu-item>
+                            <el-menu-item index="/admin/selectWorkers" :class="$route.path=='/admin/selectWorkers'?'is-active':''">维修人员
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-submenu index="2">
                             <template slot="title"><i class="el-icon-user"></i>工单管理</template>
                             <el-menu-item index="/admin/order" :class="$route.path=='/admin/order'?'is-active':''">工单查询
                             </el-menu-item>
@@ -18,7 +25,7 @@
                             <el-menu-item index="/admin/handOrder" :class="$route.path=='/admin/handOrder'?'is-active':''">退单申请
                             </el-menu-item>
                         </el-submenu>
-                        <el-submenu index="2">
+                        <el-submenu index="3">
                             <template slot="title"><i class="el-icon-user"></i>设置</template>
                             <el-menu-item index="/admin/UpdatePassword" :class="$route.path=='/admin/UpdatePassword'?'is-active':''">修改密码
                             </el-menu-item>

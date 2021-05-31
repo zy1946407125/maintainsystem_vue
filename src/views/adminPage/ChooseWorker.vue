@@ -102,9 +102,7 @@
 
             axios.post('/admin/selectWorkers', params)
                 .then(function (response) {
-                    console.log(response)
                     that.loading = false
-                    console.log(response)
                     if (response.data.status === 444) {
                         that.$message.error("您的登录信息已过期，请重新登录")
                         that.$router.replace("/")

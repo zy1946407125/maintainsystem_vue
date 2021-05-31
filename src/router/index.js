@@ -16,6 +16,8 @@ import Order from "../views/adminPage/Order";
 import SendOrder from "../views/adminPage/SendOrder";
 import HandOrder from "../views/adminPage/HandOrder";
 import ChooseWorker from "../views/adminPage/ChooseWorker";
+import Admins from "../views/adminPage/Admins";
+import Workers from "../views/adminPage/Workers";
 
 //维修人员页面
 import WorkerIndex from "../views/workerPage/WorkerIndex";
@@ -38,6 +40,23 @@ const routes = [
         path: '/register',
         name: '注册',
         component: Register
+    },
+    {
+        path: '/admin/index',
+        name: '管理员--人员管理',
+        component: AdminIndex,
+        children:[
+            {
+                path: '/admin/selectAdmins',
+                name: '管理员列表',
+                component: Admins,
+            },
+            {
+                path: '/admin/selectWorkers',
+                name: '维修人员列表',
+                component: Workers,
+            },
+        ]
     },
     {
         path: '/admin/index',
