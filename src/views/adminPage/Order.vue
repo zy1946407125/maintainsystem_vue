@@ -44,8 +44,7 @@
                       v-loading="loading"
                       :data="tableData"
                       border
-                      style="width: 100%"
-                      :cell-style="cellStyle">
+                      style="width: 100%">
                 <el-table-column
                         fixed="left"
                         prop="id"
@@ -315,19 +314,6 @@
                     return cellValue
                 }
             },
-            cellStyle(row, column, rowIndex, columnIndex) {//根据报警级别显示颜色
-                // console.log(row);
-                // console.log(row.column);
-                if (row.row.status === '已完成') {
-                    return 'background:LightGreen'
-                } else if (row.row.status === '管理员已派单') {
-                    return 'background:LightSkyBlue'
-                } else if (row.row.status === '未派单') {
-                    return 'background:Pink'
-                } else if (row.row.status === '工人确认完成') {
-                    return 'background:Khaki'
-                }
-            }
         },
         created() {
             const token = sessionStorage.getItem("token");
