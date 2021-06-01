@@ -105,14 +105,14 @@
                         width="120">
                 </el-table-column>
                 <el-table-column
-                        prop="w_reason"
-                        label="工人退单理由"
-                        width="120">
+                        prop="workerreason"
+                        label="工人申请退单理由"
+                        width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="a_reason"
-                        label="管理员拒绝理由"
-                        width="120">
+                        prop="adminreason"
+                        label="管理员拒绝退单理由"
+                        width="200">
                 </el-table-column>
                 <el-table-column
                         prop="consumable"
@@ -121,7 +121,7 @@
                 </el-table-column>
                 <el-table-column
                         label="操作"
-                        width="360">
+                        width="500">
                     <template slot-scope="scope">
                         <el-button :disabled="scope.row.imgsfileids1==null||scope.row.imgsfileids1=='[]'"
                                    slot="reference"
@@ -131,6 +131,12 @@
                                    slot="reference"
                                    icon="el-icon-s-promotion" @click="lookImg2(scope.row)">查看维修图片
                         </el-button>
+                        <el-popconfirm
+                                title="确认取消工单吗？"
+                                @confirm="cancelOrder(scope.row)"
+                        >
+                            <el-button :disabled="scope.row.status!=='未派单'" slot="reference" icon="el-icon-s-promotion">撤单</el-button>
+                        </el-popconfirm>
                     </template>
                 </el-table-column>
             </el-table>
@@ -171,6 +177,9 @@
                     value: '用户已撤单',
                     label: '用户已撤单'
                 }, {
+                    value: '管理员已撤单',
+                    label: '管理员已撤单'
+                },{
                     value: '管理员已派单',
                     label: '管理员已派单'
                 }, {
@@ -243,6 +252,31 @@
             }
         },
         methods: {
+            cancelOrder(row){
+                console.log(row)
+                const that = this
+                that.loading = true
+                var token = sessionStorage.getItem("token")
+                var params = new URLSearchParams()
+                params.append('token', token)
+                params.append('id',row.id)
+                axios.post('/user/removeOrder',params).then(function (response) {
+                    console.log(response)
+                    that.loading = false
+                    console.log(response)
+                    if (response.data.status === 444) {
+                        that.$message.error("您的登录信息已过期，请重新登录")
+                        that.$router.replace("/")
+                    } else if (response.data.status === 445) {
+                        that.$message.error("您没有此操作权限")
+                    } else if(response.data===1){
+                        that.$message.success("撤单成功")
+                        that.select()
+                    }else {
+                        that.$message.error("撤单失败")
+                    }
+                })
+            },
             select() {
                 console.log(this.status)
                 console.log(this.type)
