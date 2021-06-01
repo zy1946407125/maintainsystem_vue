@@ -62,11 +62,13 @@
                         label="操作"
                         width="500">
                     <template slot-scope="scope">
-                        <el-button :disabled="scope.row.imgsfileids1==null" slot="reference"
+                        <el-button :disabled="scope.row.imgsfileids1==null||scope.row.imgsfileids1=='[]'"
+                                   slot="reference"
                                    icon="el-icon-s-promotion" @click="lookImg1(scope.row)">查看申报图片
                         </el-button>
-                        <el-button :disabled="scope.row.imgsfileids2==null"
-                                   slot="reference" icon="el-icon-s-promotion" @click="lookImg2(scope.row)">查看维修图片
+                        <el-button :disabled="scope.row.imgsfileids2==null||scope.row.imgsfileids2=='[]'"
+                                   slot="reference"
+                                   icon="el-icon-s-promotion" @click="lookImg2(scope.row)">查看维修图片
                         </el-button>
                         <el-button slot="reference" @click="confirmOrder(scope.row)">确认维修完成</el-button>
                     </template>
@@ -119,9 +121,9 @@
                 tableData: null,
                 loading: true,
                 row: null,
-                imgUrl:null,
+                imgUrl: null,
                 dialogFormVisible: false,
-                dialogFormVisible2:false,
+                dialogFormVisible2: false,
                 form: {
                     comment: null,
                 },
@@ -143,7 +145,7 @@
                 console.log(this.value1)
                 console.log(this.value2)
                 console.log(this.value3)
-                if (this.form.comment === null) {
+                if (this.form.comment === null||this.form.comment === '') {
                     this.$message.warning("请填写维修评价！")
                 } else if (this.value1 === 0 || this.value2 === 0 || this.value3 === 0) {
                     this.$message.warning("请选择维修评分！")

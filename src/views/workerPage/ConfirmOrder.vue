@@ -57,7 +57,8 @@
                         label="操作"
                         width="400">
                     <template slot-scope="scope">
-                        <el-button :disabled="scope.row.imgsfileids1==null" slot="reference"
+                        <el-button :disabled="scope.row.imgsfileids1==null||scope.row.imgsfileids1=='[]'"
+                                   slot="reference"
                                    icon="el-icon-s-promotion" @click="lookImg1(scope.row)">查看申报图片
                         </el-button>
                         <el-popconfirm
@@ -136,7 +137,7 @@
             sendWorkerReason() {
                 console.log(this.row)
                 console.log(this.form.workerReason)
-                if (this.form.workerReason === null) {
+                if (this.form.workerReason === null||this.form.workerReason === '') {
                     this.$message.warning("请填写退单原因！")
                 } else {
                     const that = this

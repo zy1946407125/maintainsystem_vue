@@ -123,11 +123,13 @@
                         label="操作"
                         width="360">
                     <template slot-scope="scope">
-                        <el-button :disabled="scope.row.imgsfileids1==null" slot="reference"
+                        <el-button :disabled="scope.row.imgsfileids1==null||scope.row.imgsfileids1=='[]'"
+                                   slot="reference"
                                    icon="el-icon-s-promotion" @click="lookImg1(scope.row)">查看申报图片
                         </el-button>
-                        <el-button :disabled="scope.row.imgsfileids2==null"
-                                   slot="reference" icon="el-icon-s-promotion" @click="lookImg2(scope.row)">查看维修图片
+                        <el-button :disabled="scope.row.imgsfileids2==null||scope.row.imgsfileids2=='[]'"
+                                   slot="reference"
+                                   icon="el-icon-s-promotion" @click="lookImg2(scope.row)">查看维修图片
                         </el-button>
                     </template>
                 </el-table-column>
@@ -154,7 +156,7 @@
                 size: 10,
                 tableData: null,
                 total: null,
-                imgUrl:null,
+                imgUrl: null,
                 dialogFormVisible: false,
                 loading: true,
                 optionsType: [],
@@ -289,7 +291,7 @@
                                 that.$router.replace("/")
                             } else if (response.data.status === 445) {
                                 that.$message.error("您没有此操作权限")
-                            } else{
+                            } else {
                                 that.tableData = response.data.orders
                                 that.total = response.data.total
                             }

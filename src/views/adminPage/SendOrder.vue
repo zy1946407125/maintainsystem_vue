@@ -51,7 +51,8 @@
                         label="操作"
                         width="450">
                     <template slot-scope="scope">
-                        <el-button :disabled="scope.row.imgsfileids1==null" slot="reference"
+                        <el-button :disabled="scope.row.imgsfileids1==null||scope.row.imgsfileids1=='[]'"
+                                   slot="reference"
                                    icon="el-icon-s-promotion" @click="lookImg1(scope.row)">查看申报图片
                         </el-button>
                         <el-button type="primary" slot="reference" icon="el-icon-s-promotion"
@@ -81,11 +82,11 @@
                 total: null,
                 loading: true,
                 dialogFormVisible: false,
-                imgUrl:null,
+                imgUrl: null,
             }
         },
         methods: {
-            handleClick(row){
+            handleClick(row) {
                 console.log(row)
                 this.$router.push({
                     path: '/admin/chooseWorker',

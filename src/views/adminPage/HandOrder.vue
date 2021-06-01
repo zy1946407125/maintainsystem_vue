@@ -64,11 +64,18 @@
                         width="120">
                 </el-table-column>
                 <el-table-column
+                        prop="workerReason"
+                        label="退单原因"
+                        width="220">
+                </el-table-column>
+                <el-table-column
                         label="操作"
                         width="450">
                     <template slot-scope="scope">
-                        <el-button :disabled="scope.row.imgsfileids1==null" slot="reference"
-                                   icon="el-icon-s-promotion" @click="lookImg1(scope.row)">查看申报图片
+                        <el-button :disabled="scope.row.imgsfileids1==null||scope.row.imgsfileids1=='[]'"
+                                   slot="reference"
+                                   icon="el-icon-s-promotion"
+                                   @click="lookImg1(scope.row)">查看申报图片
                         </el-button>
                         <el-popconfirm
                                 title="确认同意撤单吗？"
@@ -112,7 +119,7 @@
                 row: null,
                 dialogFormVisible: false,
                 dialogFormVisible2: false,
-                imgUrl:null,
+                imgUrl: null,
                 form: {
                     adminReason: null,
                 },
@@ -142,7 +149,7 @@
                 this.imgUrl = imgUrl
                 this.dialogFormVisible2 = true
             },
-            agreeApply(row){
+            agreeApply(row) {
                 const that = this
                 that.loading = true
                 var token = sessionStorage.getItem("token")
@@ -176,7 +183,7 @@
             sendAdminReason() {
                 console.log(this.row)
                 console.log(this.form.adminReason)
-                if (this.form.adminReason === null) {
+                if (this.form.adminReason === null||this.form.adminReason === '') {
                     this.$message.warning("请填写拒绝理由！")
                 } else {
                     const that = this

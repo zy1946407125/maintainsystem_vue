@@ -123,11 +123,13 @@
                         label="操作"
                         width="360">
                     <template slot-scope="scope">
-                        <el-button :disabled="scope.row.imgsfileids1==null" slot="reference"
+                        <el-button :disabled="scope.row.imgsfileids1==null||scope.row.imgsfileids1=='[]'"
+                                   slot="reference"
                                    icon="el-icon-s-promotion" @click="lookImg1(scope.row)">查看申报图片
                         </el-button>
-                        <el-button :disabled="scope.row.imgsfileids2==null"
-                                   slot="reference" icon="el-icon-s-promotion" @click="lookImg2(scope.row)">查看维修图片
+                        <el-button :disabled="scope.row.imgsfileids2==null||scope.row.imgsfileids2=='[]'"
+                                   slot="reference"
+                                   icon="el-icon-s-promotion" @click="lookImg2(scope.row)">查看维修图片
                         </el-button>
                     </template>
                 </el-table-column>

@@ -62,7 +62,8 @@
                         label="操作"
                         width="400">
                     <template slot-scope="scope">
-                        <el-button :disabled="scope.row.imgsfileids1==null" slot="reference"
+                        <el-button :disabled="scope.row.imgsfileids1==null||scope.row.imgsfileids1=='[]'"
+                                   slot="reference"
                                    icon="el-icon-s-promotion" @click="lookImg1(scope.row)">查看申报图片
                         </el-button>
                         <el-button slot="reference" @click="confirmOrder(scope.row)">确认维修完成</el-button>
@@ -75,6 +76,20 @@
                         <el-input v-model="form.consumable" autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
+                <el-upload
+                        action="aaaaaaa"
+                        list-type="picture-card"
+                        :on-preview="handlePictureCardPreview"
+                        :on-remove="handleRemove"
+                        :on-change="handleChange"
+                        :auto-upload="false"
+                        :multiple="multiple"
+                        :file-list="fileList">
+                    <i class="el-icon-plus"></i>
+                </el-upload>
+                <el-dialog :visible.sync="dialogVisible">
+                    <img width="100%" :src="dialogImageUrl" alt="">
+                </el-dialog>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
                     <el-button type="primary" @click="sendConsumable()">确 定</el-button>
@@ -100,8 +115,12 @@
                 loading: true,
                 row: null,
                 dialogFormVisible: false,
+                dialogVisible: false,
+                dialogImageUrl: '',
                 imgUrl: null,
                 dialogFormVisible2: false,
+                fileList: [],
+                multiple: true,
                 form: {
                     consumable: null,
                 },
@@ -109,6 +128,16 @@
             }
         },
         methods: {
+            handleRemove(file, fileList) {
+                this.fileList = fileList;
+            },
+            handlePictureCardPreview(file) {
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
+            },
+            handleChange(file, fileList) {
+                this.fileList = fileList;
+            },
             lookImg1(row) {
                 console.log(row)
                 var imgUrl = JSON.parse(row.imgsfileids1)
@@ -138,35 +167,46 @@
             sendConsumable() {
                 console.log(this.row)
                 console.log(this.form.consumable)
-                if (this.form.consumable === null) {
+                if (this.form.consumable === null || this.form.consumable === "") {
                     this.$message.warning("请填写维修耗材！")
                 } else {
                     const that = this
                     that.loading = true
-                    var token = sessionStorage.getItem("token")
-                    var params = new URLSearchParams()
-                    params.append('token', token)
-                    params.append('id', this.row.id)
-                    params.append('consumable', this.form.consumable)
-                    axios.post('/worker/completeOrder', params)
-                        .then(function (response) {
-                            that.loading = false
-                            console.log(response)
-                            if (response.data.status === 444) {
-                                that.$message.error("您的登录信息已过期，请重新登录")
-                                that.$router.replace("/")
-                            } else if (response.data.status === 445) {
-                                that.$message.error("您没有此操作权限")
-                            } else if (response.data === 1) {
-                                that.$message.success("确认成功")
-                                that.dialogFormVisible = false
-                                that.select()
-                            } else if (response.data === 0) {
-                                that.$message.error("确认失败")
-                            } else {
-                                that.$message.error("未知错误")
-                            }
-                        })
+                    //图片上传
+                    console.log(this.fileList)
+                    let formData = new FormData();
+                    this.fileList.forEach(item => {
+                        formData.append("files", item.raw);
+                    });
+                    axios.post('/user/uploadImg', formData).then(function (response) {
+                        console.log(response)
+                        var token = sessionStorage.getItem("token")
+                        var imgsfileids2 = JSON.stringify(response.data)
+                        var params = new URLSearchParams()
+                        params.append('token', token)
+                        params.append('id', that.row.id)
+                        params.append('consumable', that.form.consumable)
+                        params.append('imgsfileids2', imgsfileids2)
+                        axios.post('/worker/completeOrder', params)
+                            .then(function (response) {
+                                that.loading = false
+                                console.log(response)
+                                if (response.data.status === 444) {
+                                    that.$message.error("您的登录信息已过期，请重新登录")
+                                    that.$router.replace("/")
+                                } else if (response.data.status === 445) {
+                                    that.$message.error("您没有此操作权限")
+                                } else if (response.data === 1) {
+                                    that.$message.success("确认成功")
+                                    that.dialogFormVisible = false
+                                    that.select()
+                                } else if (response.data === 0) {
+                                    that.$message.error("确认失败")
+                                } else {
+                                    that.$message.error("未知错误")
+                                }
+                            })
+                    })
                 }
             },
             select() {
