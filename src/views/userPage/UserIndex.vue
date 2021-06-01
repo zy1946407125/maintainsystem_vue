@@ -13,6 +13,8 @@
                             <template slot="title"><i class="el-icon-user"></i>工单管理</template>
                             <el-menu-item index="/user/order" :class="$route.path=='/user/order'?'is-active':''">我的工单
                             </el-menu-item>
+                            <el-menu-item index="/user/maintainOrder" :class="$route.path=='/user/maintainOrder'?'is-active':''">维修完成
+                            </el-menu-item>
                             <el-menu-item index="/user/addOrder" :class="$route.path=='/user/addOrder'?'is-active':''">新建工单
                             </el-menu-item>
                         </el-submenu>

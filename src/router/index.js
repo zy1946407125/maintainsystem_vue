@@ -28,6 +28,7 @@ import MaintainOrder from "../views/workerPage/MaintainOrder";
 import UserIndex from "../views/userPage/UserIndex";
 import UserOrder from "../views/userPage/UserOrder";
 import AddOrder from "../views/userPage/AddOrder";
+import UserMaintainOrder from "../views/userPage/UserMaintainOrder";
 
 Vue.use(VueRouter)
 
@@ -156,6 +157,11 @@ const routes = [
                 path: '/user/order',
                 name: '我的工单',
                 component: UserOrder,
+            },
+            {
+                path: '/user/maintainOrder',
+                name: '维修完成',
+                component: UserMaintainOrder,
             },
             {
                 path: '/user/addOrder',
