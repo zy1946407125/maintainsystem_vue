@@ -58,6 +58,12 @@
                         <el-button type="primary" slot="reference" icon="el-icon-s-promotion"
                                    @click="handleClick(scope.row)">派单
                         </el-button>
+                        <el-popconfirm
+                                title="确认取消工单吗？"
+                                @confirm="cancelOrder(scope.row)"
+                        >
+                            <el-button :disabled="scope.row.status!=='未派单'" slot="reference" icon="el-icon-s-promotion">撤单</el-button>
+                        </el-popconfirm>
                     </template>
                 </el-table-column>
             </el-table>
@@ -86,6 +92,31 @@
             }
         },
         methods: {
+            cancelOrder(row){
+                console.log(row)
+                const that = this
+                that.loading = true
+                var token = sessionStorage.getItem("token")
+                var params = new URLSearchParams()
+                params.append('token', token)
+                params.append('id',row.id)
+                axios.post('/admin/removeOrder',params).then(function (response) {
+                    console.log(response)
+                    that.loading = false
+                    console.log(response)
+                    if (response.data.status === 444) {
+                        that.$message.error("您的登录信息已过期，请重新登录")
+                        that.$router.replace("/")
+                    } else if (response.data.status === 445) {
+                        that.$message.error("您没有此操作权限")
+                    } else if(response.data===1){
+                        that.$message.success("撤单成功")
+                        that.select()
+                    }else {
+                        that.$message.error("撤单失败")
+                    }
+                })
+            },
             handleClick(row) {
                 console.log(row)
                 this.$router.push({
