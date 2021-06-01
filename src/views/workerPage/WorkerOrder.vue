@@ -129,6 +129,17 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <div class="block">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="currentPage"
+                        :page-sizes="[5,10,20, 50, 100]"
+                        :page-size="size"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
             <el-dialog title="查看图片" :visible.sync="dialogFormVisible" top="0vh" width="30%">
                 <el-carousel indicator-position="outside" height="1000px">
                     <el-carousel-item v-for="item in imgUrl" :key="item">
@@ -159,7 +170,8 @@
                 workernote: null,
                 status: '',
                 valueTime: '',
-                size: 10,
+                currentPage: 1,
+                size: 5,
                 tableData: null,
                 total: null,
                 loading: false,
@@ -244,6 +256,16 @@
             }
         },
         methods: {
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+                this.size = val
+                console.log(this.size)
+                this.select()
+            },
+            handleCurrentChange(val) {
+                console.log(`当前页: ${val}`);
+                this.select2()
+            },
             setNote(row) {
                 this.dialogFormVisible3 = true
                 this.id = row.id
@@ -326,6 +348,43 @@
                     params.append('endTime', this.valueTime[1])
                     params.append('pageNum', 1)
                     params.append('pageSize', 5)
+                    axios.post('/worker/selectOrders', params)
+                        .then(function (response) {
+                            that.loading = false
+                            console.log(response)
+                            if (response.data.status === 444) {
+                                that.$message.error("您的登录信息已过期，请重新登录")
+                                that.$router.replace("/")
+                            } else if (response.data.status === 445) {
+                                that.$message.error("您没有此操作权限")
+                            } else {
+                                that.tableData = response.data.orders
+                                that.total = response.data.total
+                                that.currentPage=1
+                            }
+                        })
+                }
+            },
+            select2(status, valueTime) {
+                if (status !== null && valueTime != null && status !== '' && valueTime !== '') {
+                    this.status = status
+                    this.valueTime = valueTime
+                }
+                console.log(this.status)
+                console.log(this.valueTime)
+                if (this.valueTime === "") {
+                    this.$message.error("请输入查询时间")
+                } else {
+                    const that = this
+                    that.loading = true
+                    var token = sessionStorage.getItem("token")
+                    var params = new URLSearchParams()
+                    params.append('token', token)
+                    params.append('status', this.status)
+                    params.append("startTime", this.valueTime[0])
+                    params.append('endTime', this.valueTime[1])
+                    params.append('pageNum', this.currentPage)
+                    params.append('pageSize', this.size)
                     axios.post('/worker/selectOrders', params)
                         .then(function (response) {
                             that.loading = false
