@@ -77,7 +77,7 @@
                 })
             },
             handleRemove(file, fileList) {
-                console.log(file, fileList);
+                this.fileList = fileList;
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
