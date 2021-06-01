@@ -59,13 +59,19 @@
                         width="220">
                 </el-table-column>
                 <el-table-column
+                        prop="workernote"
+                        label="备注"
+                        width="220">
+                </el-table-column>
+                <el-table-column
                         label="操作"
-                        width="400">
+                        width="500">
                     <template slot-scope="scope">
                         <el-button :disabled="scope.row.imgsfileids1==null||scope.row.imgsfileids1=='[]'"
                                    slot="reference"
                                    icon="el-icon-s-promotion" @click="lookImg1(scope.row)">查看申报图片
                         </el-button>
+                        <el-button slot="reference" @click="setNote(scope.row)">设置备注</el-button>
                         <el-button slot="reference" @click="confirmOrder(scope.row)">确认维修完成</el-button>
                     </template>
                 </el-table-column>
@@ -102,6 +108,17 @@
                     </el-carousel-item>
                 </el-carousel>
             </el-dialog>
+            <el-dialog title="设置备注" :visible.sync="dialogFormVisible3">
+                <el-form :model="form">
+                    <el-form-item label="备注" :label-width="formLabelWidth">
+                        <el-input v-model="workernote" autocomplete="off"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible3 = false">取 消</el-button>
+                    <el-button type="primary" @click="sendWorkernote()">确 定</el-button>
+                </div>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -110,13 +127,16 @@
     export default {
         data() {
             return {
+                id: null,
                 size: 10,
                 tableData: null,
                 loading: true,
                 row: null,
                 dialogFormVisible: false,
+                dialogFormVisible3: false,
                 dialogVisible: false,
                 dialogImageUrl: '',
+                workernote: null,
                 imgUrl: null,
                 dialogFormVisible2: false,
                 fileList: [],
@@ -128,6 +148,46 @@
             }
         },
         methods: {
+            setNote(row) {
+                this.dialogFormVisible3 = true
+                this.id = row.id
+            },
+            sendWorkernote() {
+                console.log(this.id)
+                console.log(this.workernote)
+                if (this.workernote === null || this.workernote === '') {
+                    this.$message.warning("请填写备注内容！")
+                } else {
+                    const that = this
+                    that.loading = true
+                    var token = sessionStorage.getItem("token")
+                    var params = new URLSearchParams()
+                    params.append('token', token)
+                    params.append('id', this.id)
+                    params.append('workernote', this.workernote)
+                    axios.post('/worker/setWorkernote', params)
+                        .then(function (response) {
+                            that.loading = false
+                            console.log(response)
+                            if (response.data.status === 444) {
+                                that.$message.error("您的登录信息已过期，请重新登录")
+                                that.$router.replace("/")
+                            } else if (response.data.status === 445) {
+                                that.$message.error("您没有此操作权限")
+                            } else if (response.data === 1) {
+                                that.$message.success("备注成功")
+                                that.dialogFormVisible3 = false
+                                that.select()
+                                that.id = null
+                                that.workerReason = null
+                            } else if (response.data === 0) {
+                                that.$message.error("备注失败")
+                            } else {
+                                that.$message.error("未知错误")
+                            }
+                        })
+                }
+            },
             handleRemove(file, fileList) {
                 this.fileList = fileList;
             },
