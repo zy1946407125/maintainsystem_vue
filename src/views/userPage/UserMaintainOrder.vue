@@ -78,6 +78,23 @@
                         <el-input v-model="form.comment" autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
+                <center>
+                    <span>维修速度</span>
+                    <el-rate
+                            v-model="value1"
+                            show-text>
+                    </el-rate>
+                    <span>维修质量</span>
+                    <el-rate
+                            v-model="value2"
+                            show-text>
+                    </el-rate>
+                    <span>维修员态度</span>
+                    <el-rate
+                            v-model="value3"
+                            show-text>
+                    </el-rate>
+                </center>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
                     <el-button type="primary" @click="sendComment()">确 定</el-button>
@@ -99,7 +116,11 @@
                 form: {
                     comment: null,
                 },
-                formLabelWidth: '120px'
+                formLabelWidth: '120px',
+                value1: null,
+                value2: null,
+                value3: null,
+
             }
         },
         methods: {
@@ -110,8 +131,13 @@
             sendComment() {
                 console.log(this.row)
                 console.log(this.form.comment)
+                console.log(this.value1)
+                console.log(this.value2)
+                console.log(this.value3)
                 if (this.form.comment === null) {
                     this.$message.warning("请填写维修评价！")
+                } else if (this.value1 === 0 || this.value2 === 0 || this.value3 === 0) {
+                    this.$message.warning("请选择维修评分！")
                 } else {
                     const that = this
                     that.loading = true
@@ -120,6 +146,9 @@
                     params.append('token', token)
                     params.append('id', this.row.id)
                     params.append('comment', this.form.comment)
+                    params.append('score1', this.value1)
+                    params.append('score2', this.value2)
+                    params.append('score3', this.value3)
                     axios.post('/user/completeOrder', params)
                         .then(function (response) {
                             that.loading = false
