@@ -51,11 +51,8 @@
                         label="操作"
                         width="450">
                     <template slot-scope="scope">
-                        <el-button :disabled="scope.row.imgsFileIDs=='[]'||scope.row.imgsFileIDs==null" slot="reference"
+                        <el-button :disabled="scope.row.imgsfileids1==null" slot="reference"
                                    icon="el-icon-s-promotion" @click="lookImg1(scope.row)">查看申报图片
-                        </el-button>
-                        <el-button :disabled="scope.row.imgsFileIDs2=='[]'||scope.row.imgsFileIDs2==null"
-                                   slot="reference" icon="el-icon-s-promotion" @click="lookImg2(scope.row)">查看维修图片
                         </el-button>
                         <el-button type="primary" slot="reference" icon="el-icon-s-promotion"
                                    @click="handleClick(scope.row)">派单
@@ -63,6 +60,13 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <el-dialog title="查看图片" :visible.sync="dialogFormVisible" top="0vh" width="30%">
+                <el-carousel indicator-position="outside" height="1000px">
+                    <el-carousel-item v-for="item in imgUrl" :key="item">
+                        <el-image :src="item" fit="contain"></el-image>
+                    </el-carousel-item>
+                </el-carousel>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -76,6 +80,8 @@
                 tableData: null,
                 total: null,
                 loading: true,
+                dialogFormVisible: false,
+                imgUrl:null,
             }
         },
         methods: {
@@ -115,25 +121,25 @@
             },
             lookImg1(row) {
                 console.log(row)
-                var imgUrl = JSON.parse(row.imgsFileIDs)
+                var imgUrl = JSON.parse(row.imgsfileids1)
                 console.log(imgUrl)
-                this.$router.push({
-                    path: '/lookImg',
-                    query: {
-                        imgUrl: imgUrl
-                    }
-                })
+                for (var i = 0; i < imgUrl.length; i++) {
+                    imgUrl[i] = this.GLOBAL.BASE_URL + "/upload/" + imgUrl[i]
+                }
+                console.log(imgUrl)
+                this.imgUrl = imgUrl
+                this.dialogFormVisible = true
             },
             lookImg2(row) {
                 console.log(row)
-                var imgUrl = JSON.parse(row.imgsFileIDs2)
+                var imgUrl = JSON.parse(row.imgsfileids2)
                 console.log(imgUrl)
-                this.$router.push({
-                    path: '/lookImg',
-                    query: {
-                        imgUrl: imgUrl
-                    }
-                })
+                for (var i = 0; i < imgUrl.length; i++) {
+                    imgUrl[i] = this.GLOBAL.BASE_URL + "/upload/" + imgUrl[i]
+                }
+                console.log(imgUrl)
+                this.imgUrl = imgUrl
+                this.dialogFormVisible = true
             },
         },
         created() {

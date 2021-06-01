@@ -144,7 +144,6 @@
 </template>
 
 <script>
-    import global_ from "../Base";
 
     export default {
         data() {
