@@ -63,7 +63,7 @@
 <script>
     export default {
         methods: {
-            addWorker(formName){
+            addWorker(formName) {
                 console.log(this.ruleForm.id)
                 console.log(this.ruleForm.type)
                 this.$refs[formName].validate((valid) => {
@@ -91,7 +91,7 @@
                                 that.selectWorkers()
                             } else if (response.data === -1) {
                                 that.$message.error("该编号用户尚未注册，请先注册")
-                            }else {
+                            } else {
                                 that.$message.error("未知错误")
                             }
                         })

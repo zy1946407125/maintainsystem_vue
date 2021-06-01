@@ -258,7 +258,7 @@
                                 that.$router.replace("/")
                             } else if (response.data.status === 445) {
                                 that.$message.error("您没有此操作权限")
-                            } else{
+                            } else {
                                 that.tableData = response.data.orders
                                 that.total = response.data.total
                             }
