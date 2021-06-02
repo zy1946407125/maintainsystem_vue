@@ -79,11 +79,12 @@
                                    icon="el-icon-s-promotion" @click="lookImg1(scope.row)">查看申报图片
                         </el-button>
                         <el-button slot="reference" @click="setNote(scope.row)">设置备注</el-button>
+                        <el-button slot="reference" @click="printOrder(scope.row)">打印</el-button>
                         <el-button slot="reference" @click="confirmOrder(scope.row)">确认维修完成</el-button>
                     </template>
                 </el-table-column>
             </el-table>
-            <el-dialog title="确认完成" :visible.sync="dialogFormVisible">
+            <el-dialog title="确认完成" :visible.sync="dialogFormVisible" :before-close="setNull">
                 <el-form :model="form">
                     <el-form-item label="维修耗材" :label-width="formLabelWidth">
                         <el-input v-model="form.consumable" autocomplete="off"></el-input>
@@ -104,7 +105,6 @@
                     <img width="100%" :src="dialogImageUrl" alt="">
                 </el-dialog>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogFormVisible = false">取 消</el-button>
                     <el-button type="primary" @click="sendConsumable()">确 定</el-button>
                 </div>
             </el-dialog>
@@ -115,14 +115,13 @@
                     </el-carousel-item>
                 </el-carousel>
             </el-dialog>
-            <el-dialog title="设置备注" :visible.sync="dialogFormVisible3">
+            <el-dialog title="设置备注" :visible.sync="dialogFormVisible3" :before-close="setNull2">
                 <el-form :model="form">
                     <el-form-item label="备注" :label-width="formLabelWidth">
                         <el-input v-model="workernote" autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogFormVisible3 = false">取 消</el-button>
                     <el-button type="primary" @click="sendWorkernote()">确 定</el-button>
                 </div>
             </el-dialog>
@@ -173,7 +172,7 @@
                 var params = new URLSearchParams()
                 params.append('token', token)
                 params.append('ids', ids)
-                axios.post('/worker/mark',params).then(function (response) {
+                axios.post('/worker/mark', params).then(function (response) {
                     that.loading = false
                     console.log(response)
                     if (response.data.status === 444) {
@@ -191,7 +190,7 @@
                     }
                 })
             },
-            cancelMark(){
+            cancelMark() {
                 this.loading = true
                 var ids = []
                 for (var i = 0; i < this.multipleSelection.length; i++) {
@@ -205,7 +204,7 @@
                 var params = new URLSearchParams()
                 params.append('token', token)
                 params.append('ids', ids)
-                axios.post('/worker/cancelMark',params).then(function (response) {
+                axios.post('/worker/cancelMark', params).then(function (response) {
                     that.loading = false
                     console.log(response)
                     if (response.data.status === 444) {
@@ -222,6 +221,9 @@
                         that.$message.error("未知错误")
                     }
                 })
+            },
+            printOrder(){
+
             },
             printOrders() {
                 console.log(this.multipleSelection)
@@ -260,9 +262,14 @@
                             } else if (response.data === 1) {
                                 that.$message.success("备注成功")
                                 that.dialogFormVisible3 = false
-                                that.select()
+                                for (var i = 0; i < that.tableData.length; i++) {
+                                    if (that.tableData[i].id == that.id) {
+                                        that.tableData[i].workernote = that.workernote
+                                        break;
+                                    }
+                                }
                                 that.id = null
-                                that.workerReason = null
+                                that.workernote = null
                             } else if (response.data === 0) {
                                 that.$message.error("备注失败")
                             } else {
@@ -280,6 +287,15 @@
             },
             handleChange(file, fileList) {
                 this.fileList = fileList;
+            },
+            setNull(done){
+                this.form.consumable = null
+                this.fileList = []
+                done();
+            },
+            setNull2(done){
+                this.workernote = null
+                done();
             },
             lookImg1(row) {
                 console.log(row)
