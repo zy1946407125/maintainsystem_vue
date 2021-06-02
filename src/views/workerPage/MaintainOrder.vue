@@ -249,6 +249,22 @@
             },
             printOrders() {
                 console.log(this.multipleSelection)
+                if (this.multipleSelection.length == 0) {
+                    this.$message.warning("请先勾选工单")
+                }else {
+                    var orders = []
+                    for (var i = 0; i < this.multipleSelection.length; i++) {
+                        console.log(this.multipleSelection[i])
+                        orders.push(this.multipleSelection[i])
+                    }
+                    console.log(orders)
+                    this.$router.push({
+                        path: '/worker/printOrders',
+                        query: {
+                            orders:orders
+                        }
+                    })
+                }
             },
             cellStyle(row, column, rowIndex, columnIndex) {//根据标记显示颜色
                 if (row.row.mark === 1) {

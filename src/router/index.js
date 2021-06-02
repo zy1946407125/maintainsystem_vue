@@ -24,6 +24,7 @@ import WorkerOrder from "../views/workerPage/WorkerOrder";
 import ConfirmOrder from "../views/workerPage/ConfirmOrder";
 import MaintainOrder from "../views/workerPage/MaintainOrder";
 import PrintOrder from "../views/workerPage/PrintOrder";
+import PrintOrders from "../views/workerPage/PrintOrders";
 
 //普通用户页面
 import UserIndex from "../views/userPage/UserIndex";
@@ -134,6 +135,11 @@ const routes = [
                 path: '/worker/printOrder',
                 name: '工单打印',
                 component: PrintOrder,
+            },
+            {
+                path: '/worker/printOrders',
+                name: '批量打印',
+                component: PrintOrders,
             },
         ]
     },

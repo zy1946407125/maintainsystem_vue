@@ -13,24 +13,25 @@
                     <h1>湖南警察学院维修（派工联）</h1>
                 </div>
                 <div>
-                    <table border="1px" width="1000px" cellpadding="10px" rules="all" align="center">
+                    <table v-for="item in orders" border="1px" width="1000px" cellpadding="10px" rules="all"
+                           align="center">
                         <tr height="50px">
                             <td width="25%" class="td3">工单编号</td>
-                            <td width="25%" class="td1">{{id}}</td>
+                            <td width="25%" class="td1">{{item.id}}</td>
                             <td width="25%" class="td3">申报时间</td>
-                            <td width="25%" class="td1">{{starttime}}</td>
+                            <td width="25%" class="td1">{{item.starttime}}</td>
                         </tr>
                         <tr height="50px">
                             <td width="25%" class="td3">报修人</td>
-                            <td width="25%" class="td1">{{uname}}</td>
+                            <td width="25%" class="td1">{{item.uname}}</td>
                             <td width="25%" class="td3">联系方式</td>
-                            <td width="25%" class="td1">{{uphone}}</td>
+                            <td width="25%" class="td1">{{item.uphone}}</td>
                         </tr>
                         <tr height="50px">
                             <td width="25%" class="td3">维修人</td>
-                            <td width="25%" class="td1">{{wname}}</td>
+                            <td width="25%" class="td1">{{item.wname}}</td>
                             <td width="25%" class="td3">联系方式</td>
-                            <td width="25%" class="td1">{{wphone}}</td>
+                            <td width="25%" class="td1">{{item.wphone}}</td>
                         </tr>
                         <tr height="50px">
                             <td width="25%" rowspan="2" class="td3">维修内容</td>
@@ -39,9 +40,9 @@
                             <td width="25%" class="td3">维修地址</td>
                         </tr>
                         <tr height="50px">
-                            <td width="25%" class="td1">{{type}}</td>
-                            <td width="25%" class="td1">{{reason}}</td>
-                            <td width="25%" class="td1">{{address}}</td>
+                            <td width="25%" class="td1">{{item.type}}</td>
+                            <td width="25%" class="td1">{{item.reason}}</td>
+                            <td width="25%" class="td1">{{item.address}}</td>
                         </tr>
                     </table>
                     <table border="1px" width="1000px" cellpadding="10px" rules="all" align="center">
@@ -144,6 +145,7 @@
     export default {
         data() {
             return {
+                orders: null,
                 header: false,
                 hiddenTableHeader: false,
             }
@@ -155,15 +157,8 @@
             },
         },
         created() {
-            this.id = this.$route.query.id
-            this.starttime = this.$route.query.starttime
-            this.uname = this.$route.query.uname
-            this.uphone = this.$route.query.uphone
-            this.wname = this.$route.query.wname
-            this.wphone = this.$route.query.wphone
-            this.type = this.$route.query.type
-            this.reason = this.$route.query.reason
-            this.address = this.$route.query.address
+            this.orders = this.$route.query.orders
+            console.log(this.orders)
         },
     }
 </script>
