@@ -18,6 +18,7 @@ import ChooseWorker from "../views/adminPage/ChooseWorker";
 import Admins from "../views/adminPage/Admins";
 import Workers from "../views/adminPage/Workers";
 import OrderStatistical from "../views/adminPage/OrderStatistical";
+import WorkerStatistical from "../views/adminPage/WorkerStatistical";
 
 //维修人员页面
 import WorkerIndex from "../views/workerPage/WorkerIndex";
@@ -97,8 +98,13 @@ const routes = [
         children:[
             {
                 path: '/admin/orderStatistical',
-                name: '统计',
+                name: '工单统计',
                 component: OrderStatistical,
+            },
+            {
+                path: '/admin/workerStatistical',
+                name: '工人统计',
+                component: WorkerStatistical,
             },
         ]
     },

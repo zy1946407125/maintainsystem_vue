@@ -3,7 +3,7 @@
         <div class="block">
             <div style="width: 50px"></div>
             <div style="display: flex;flex-direction: row">
-                <h1>工单a完成情况统计表</h1>
+                <h1>工单完成情况统计表</h1>
             </div>
             <el-date-picker
                     v-model="value2"
@@ -217,14 +217,14 @@
                             } else {
                                 that.tableData = response.data
                                 for (var i = 0; i < response.data.length; i++) {
-                                    that.tableData[i].percentage = (response.data[i].completenum / response.data[i].acceptnum * 100).toFixed(2) + '%'
+                                    that.tableData[i].percentage = (response.data[i].completenum * 100.0 / response.data[i].acceptnum).toFixed(2) + '%'
                                     that.chartText.push(response.data[i].type)
                                     var tmp = {
                                         value: response.data[i].acceptnum,
                                         name: response.data[i].type
                                     }
                                     that.chartData1.push(tmp)
-                                    that.chartData2.push(response.data[i].completenum / response.data[i].acceptnum * 100)
+                                    that.chartData2.push(response.data[i].completenum * 100.0 / response.data[i].acceptnum)
                                 }
                                 that.drawChart();
                             }

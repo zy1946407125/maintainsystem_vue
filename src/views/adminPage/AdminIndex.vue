@@ -26,8 +26,10 @@
                             </el-menu-item>
                         </el-submenu>
                         <el-submenu index="3">
-                            <template slot="title"><i class="el-icon-user"></i>统计</template>
+                            <template slot="title"><i class="el-icon-user"></i>图表统计</template>
                             <el-menu-item index="/admin/orderStatistical" :class="$route.path=='/admin/orderStatistical'?'is-active':''">工单统计
+                            </el-menu-item>
+                            <el-menu-item index="/admin/workerStatistical" :class="$route.path=='/admin/workerStatistical'?'is-active':''">工人统计
                             </el-menu-item>
                         </el-submenu>
                         <el-submenu index="4">
