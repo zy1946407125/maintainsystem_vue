@@ -4,11 +4,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './plugins/element.js'
+import * as echarts from 'echarts'
 
 import Print from 'vue-print-nb'
 Vue.use(Print);  //注册
 
 Vue.config.productionTip = false
+Vue.prototype.$echarts = echarts
 
 // 设置全局变量
 import global_ from './views/Base.vue'

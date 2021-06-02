@@ -17,6 +17,7 @@ import HandOrder from "../views/adminPage/HandOrder";
 import ChooseWorker from "../views/adminPage/ChooseWorker";
 import Admins from "../views/adminPage/Admins";
 import Workers from "../views/adminPage/Workers";
+import OrderStatistical from "../views/adminPage/OrderStatistical";
 
 //维修人员页面
 import WorkerIndex from "../views/workerPage/WorkerIndex";
@@ -86,6 +87,18 @@ const routes = [
                 path:'/admin/chooseWorker',
                 name:'选择工人',
                 component: ChooseWorker
+            },
+        ]
+    },
+    {
+        path: '/admin/index',
+        name: '管理员--图表统计',
+        component: AdminIndex,
+        children:[
+            {
+                path: '/admin/orderStatistical',
+                name: '统计',
+                component: OrderStatistical,
             },
         ]
     },
