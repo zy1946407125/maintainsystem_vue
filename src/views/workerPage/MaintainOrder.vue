@@ -1,12 +1,24 @@
 <template>
     <div>
         <h1>正在维修</h1>
+        <div style="margin-top: 20px">
+            <el-button @click="mark()">标记</el-button>
+            <el-button @click="cancelMark()">取消标记</el-button>
+            <el-button @click="printOrders()">批量打印</el-button>
+        </div>
         <div id="father">
             <el-table id="table"
+                      ref="multipleTable"
                       v-loading="loading"
                       :data="tableData"
-                      border
-                      style="width: 100%">
+                      :cell-style="cellStyle"
+                      @selection-change="handleSelectionChange">
+                border
+                style="width: 100%">
+                <el-table-column
+                        type="selection"
+                        width="55">
+                </el-table-column>
                 <el-table-column
                         fixed="left"
                         prop="id"
@@ -37,11 +49,6 @@
                         prop="updatetime"
                         label="更新时间"
                         width="160">
-                </el-table-column>
-                <el-table-column
-                        prop="status"
-                        label="状态"
-                        width="120">
                 </el-table-column>
                 <el-table-column
                         prop="uname"
@@ -140,6 +147,7 @@
                 imgUrl: null,
                 dialogFormVisible2: false,
                 fileList: [],
+                multipleSelection: [],
                 multiple: true,
                 form: {
                     consumable: null,
@@ -148,6 +156,81 @@
             }
         },
         methods: {
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            mark() {
+                this.loading = true
+                var ids = []
+                for (var i = 0; i < this.multipleSelection.length; i++) {
+                    console.log(this.multipleSelection[i])
+                    this.multipleSelection[i].mark = 1
+                    ids.push(this.multipleSelection[i].id)
+                }
+                const that = this
+                that.loading = true
+                var token = sessionStorage.getItem("token")
+                var params = new URLSearchParams()
+                params.append('token', token)
+                params.append('ids', ids)
+                axios.post('/worker/mark',params).then(function (response) {
+                    that.loading = false
+                    console.log(response)
+                    if (response.data.status === 444) {
+                        that.$message.error("您的登录信息已过期，请重新登录")
+                        that.$router.replace("/")
+                    } else if (response.data.status === 445) {
+                        that.$message.error("您没有此操作权限")
+                    } else if (response.data === 1) {
+                        that.$message.success("标记成功")
+                        that.$refs.multipleTable.clearSelection();
+                    } else if (response.data === 0) {
+                        that.$message.error("标记失败")
+                    } else {
+                        that.$message.error("未知错误")
+                    }
+                })
+            },
+            cancelMark(){
+                this.loading = true
+                var ids = []
+                for (var i = 0; i < this.multipleSelection.length; i++) {
+                    console.log(this.multipleSelection[i])
+                    this.multipleSelection[i].mark = null
+                    ids.push(this.multipleSelection[i].id)
+                }
+                const that = this
+                that.loading = true
+                var token = sessionStorage.getItem("token")
+                var params = new URLSearchParams()
+                params.append('token', token)
+                params.append('ids', ids)
+                axios.post('/worker/cancelMark',params).then(function (response) {
+                    that.loading = false
+                    console.log(response)
+                    if (response.data.status === 444) {
+                        that.$message.error("您的登录信息已过期，请重新登录")
+                        that.$router.replace("/")
+                    } else if (response.data.status === 445) {
+                        that.$message.error("您没有此操作权限")
+                    } else if (response.data === 1) {
+                        that.$message.success("取消标记成功")
+                        that.$refs.multipleTable.clearSelection();
+                    } else if (response.data === 0) {
+                        that.$message.error("取消标记失败")
+                    } else {
+                        that.$message.error("未知错误")
+                    }
+                })
+            },
+            printOrders() {
+                console.log(this.multipleSelection)
+            },
+            cellStyle(row, column, rowIndex, columnIndex) {//根据标记显示颜色
+                if (row.row.mark === 1) {
+                    return 'background:LightGreen'
+                }
+            },
             setNote(row) {
                 this.dialogFormVisible3 = true
                 this.id = row.id
