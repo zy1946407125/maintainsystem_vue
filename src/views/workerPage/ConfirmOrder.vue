@@ -71,14 +71,13 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-dialog title="申请退单" :visible.sync="dialogFormVisible">
+            <el-dialog title="申请退单" :visible.sync="dialogFormVisible" :before-close="setNull">
                 <el-form :model="form">
                     <el-form-item label="退单原因" :label-width="formLabelWidth">
                         <el-input v-model="form.workerReason" autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogFormVisible = false">取 消</el-button>
                     <el-button type="primary" @click="sendWorkerReason()">确 定</el-button>
                 </div>
             </el-dialog>
@@ -134,10 +133,14 @@
                 this.imgUrl = imgUrl
                 this.dialogFormVisible2 = true
             },
+            setNull(done) {
+                this.form.workerReason = null
+                done();
+            },
             sendWorkerReason() {
                 console.log(this.row)
                 console.log(this.form.workerReason)
-                if (this.form.workerReason === null||this.form.workerReason === '') {
+                if (this.form.workerReason === null || this.form.workerReason === '') {
                     this.$message.warning("请填写退单原因！")
                 } else {
                     const that = this
