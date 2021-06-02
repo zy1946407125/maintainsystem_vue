@@ -159,70 +159,78 @@
                 this.multipleSelection = val;
             },
             mark() {
-                this.loading = true
-                var ids = []
-                for (var i = 0; i < this.multipleSelection.length; i++) {
-                    console.log(this.multipleSelection[i])
-                    this.multipleSelection[i].mark = 1
-                    ids.push(this.multipleSelection[i].id)
-                }
-                const that = this
-                that.loading = true
-                var token = sessionStorage.getItem("token")
-                var params = new URLSearchParams()
-                params.append('token', token)
-                params.append('ids', ids)
-                axios.post('/worker/mark', params).then(function (response) {
-                    that.loading = false
-                    console.log(response)
-                    if (response.data.status === 444) {
-                        that.$message.error("您的登录信息已过期，请重新登录")
-                        that.$router.replace("/")
-                    } else if (response.data.status === 445) {
-                        that.$message.error("您没有此操作权限")
-                    } else if (response.data === 1) {
-                        that.$message.success("标记成功")
-                        that.$refs.multipleTable.clearSelection();
-                    } else if (response.data === 0) {
-                        that.$message.error("标记失败")
-                    } else {
-                        that.$message.error("未知错误")
+                if (this.multipleSelection.length == 0) {
+                    this.$message.warning("请先勾选工单")
+                } else {
+                    this.loading = true
+                    var ids = []
+                    for (var i = 0; i < this.multipleSelection.length; i++) {
+                        console.log(this.multipleSelection[i])
+                        this.multipleSelection[i].mark = 1
+                        ids.push(this.multipleSelection[i].id)
                     }
-                })
+                    const that = this
+                    that.loading = true
+                    var token = sessionStorage.getItem("token")
+                    var params = new URLSearchParams()
+                    params.append('token', token)
+                    params.append('ids', ids)
+                    axios.post('/worker/mark', params).then(function (response) {
+                        that.loading = false
+                        console.log(response)
+                        if (response.data.status === 444) {
+                            that.$message.error("您的登录信息已过期，请重新登录")
+                            that.$router.replace("/")
+                        } else if (response.data.status === 445) {
+                            that.$message.error("您没有此操作权限")
+                        } else if (response.data === 1) {
+                            that.$message.success("标记成功")
+                            that.$refs.multipleTable.clearSelection();
+                        } else if (response.data === 0) {
+                            that.$message.error("标记失败")
+                        } else {
+                            that.$message.error("未知错误")
+                        }
+                    })
+                }
             },
             cancelMark() {
-                this.loading = true
-                var ids = []
-                for (var i = 0; i < this.multipleSelection.length; i++) {
-                    console.log(this.multipleSelection[i])
-                    this.multipleSelection[i].mark = null
-                    ids.push(this.multipleSelection[i].id)
-                }
-                const that = this
-                that.loading = true
-                var token = sessionStorage.getItem("token")
-                var params = new URLSearchParams()
-                params.append('token', token)
-                params.append('ids', ids)
-                axios.post('/worker/cancelMark', params).then(function (response) {
-                    that.loading = false
-                    console.log(response)
-                    if (response.data.status === 444) {
-                        that.$message.error("您的登录信息已过期，请重新登录")
-                        that.$router.replace("/")
-                    } else if (response.data.status === 445) {
-                        that.$message.error("您没有此操作权限")
-                    } else if (response.data === 1) {
-                        that.$message.success("取消标记成功")
-                        that.$refs.multipleTable.clearSelection();
-                    } else if (response.data === 0) {
-                        that.$message.error("取消标记失败")
-                    } else {
-                        that.$message.error("未知错误")
+                if (this.multipleSelection.length == 0) {
+                    this.$message.warning("请先勾选工单")
+                } else {
+                    this.loading = true
+                    var ids = []
+                    for (var i = 0; i < this.multipleSelection.length; i++) {
+                        console.log(this.multipleSelection[i])
+                        this.multipleSelection[i].mark = null
+                        ids.push(this.multipleSelection[i].id)
                     }
-                })
+                    const that = this
+                    that.loading = true
+                    var token = sessionStorage.getItem("token")
+                    var params = new URLSearchParams()
+                    params.append('token', token)
+                    params.append('ids', ids)
+                    axios.post('/worker/cancelMark', params).then(function (response) {
+                        that.loading = false
+                        console.log(response)
+                        if (response.data.status === 444) {
+                            that.$message.error("您的登录信息已过期，请重新登录")
+                            that.$router.replace("/")
+                        } else if (response.data.status === 445) {
+                            that.$message.error("您没有此操作权限")
+                        } else if (response.data === 1) {
+                            that.$message.success("取消标记成功")
+                            that.$refs.multipleTable.clearSelection();
+                        } else if (response.data === 0) {
+                            that.$message.error("取消标记失败")
+                        } else {
+                            that.$message.error("未知错误")
+                        }
+                    })
+                }
             },
-            printOrder(){
+            printOrder() {
 
             },
             printOrders() {
@@ -288,12 +296,12 @@
             handleChange(file, fileList) {
                 this.fileList = fileList;
             },
-            setNull(done){
+            setNull(done) {
                 this.form.consumable = null
                 this.fileList = []
                 done();
             },
-            setNull2(done){
+            setNull2(done) {
                 this.workernote = null
                 done();
             },
