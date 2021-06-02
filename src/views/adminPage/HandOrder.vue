@@ -87,14 +87,13 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-dialog title="拒绝撤单" :visible.sync="dialogFormVisible">
+            <el-dialog title="拒绝撤单" :visible.sync="dialogFormVisible" :before-close="setNull">
                 <el-form :model="form">
                     <el-form-item label="拒绝理由" :label-width="formLabelWidth">
                         <el-input v-model="form.adminReason" autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogFormVisible = false">取 消</el-button>
                     <el-button type="primary" @click="sendAdminReason()">确 定</el-button>
                 </div>
             </el-dialog>
@@ -179,6 +178,10 @@
             refuseApply(row) {
                 this.dialogFormVisible = true
                 this.row = row
+            },
+            setNull(done) {
+                this.form.adminReason = null
+                done();
             },
             sendAdminReason() {
                 console.log(this.row)
