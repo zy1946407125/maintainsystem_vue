@@ -230,8 +230,22 @@
                     })
                 }
             },
-            printOrder() {
-
+            printOrder(row) {
+                console.log(row)
+                this.$router.push({
+                    path: '/worker/printOrder',
+                    query: {
+                        id: row.id,
+                        starttime: row.starttime,
+                        uname: row.uname,
+                        uphone: row.uphone,
+                        wname: row.wname,
+                        wphone: row.wphone,
+                        type: row.type,
+                        reason: row.reason,
+                        address: row.address,
+                    }
+                })
             },
             printOrders() {
                 console.log(this.multipleSelection)

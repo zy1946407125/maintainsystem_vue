@@ -5,6 +5,9 @@ import router from './router'
 import store from './store'
 import './plugins/element.js'
 
+import Print from 'vue-print-nb'
+Vue.use(Print);  //注册
+
 Vue.config.productionTip = false
 
 // 设置全局变量

@@ -7645,6 +7645,13 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-print-nb@^1.7.4:
+  version "1.7.4"
+  resolved "https://registry.nlark.com/vue-print-nb/download/vue-print-nb-1.7.4.tgz#5a9162b0d96972b401347e60738592b5a4e42109"
+  integrity sha1-WpFisNlpcrQBNH5gc4WStaTkIQk=
+  dependencies:
+    vue "^2.6.11"
+
 vue-router@^3.2.0:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.1.tgz#edf3cf4907952d1e0583e079237220c5ff6eb6c9"
