@@ -125,6 +125,7 @@
                                     that.$message.success("工单提交成功")
                                     that.ruleForm.address = null
                                     that.ruleForm.reason = null
+                                    that.fileList = []
                                 }
                             })
                         })
