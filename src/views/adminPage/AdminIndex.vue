@@ -40,7 +40,7 @@
                             </el-menu-item>
                             <el-menu-item index="/admin/workType" :class="$route.path=='/admin/workType'?'is-active':''">维修类别
                             </el-menu-item>
-                            <el-menu-item index="/admin/dept" :class="$route.path=='/admin/dept'?'is-active':''">系部
+                            <el-menu-item index="/admin/dept" :class="$route.path=='/admin/dept'?'is-active':''">部门
                             </el-menu-item>
                         </el-submenu>
                     </el-menu>

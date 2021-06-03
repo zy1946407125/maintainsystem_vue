@@ -131,7 +131,7 @@ const routes = [
             },
             {
                 path:'/admin/dept',
-                name:'系部',
+                name:'部门',
                 component: Dept
             }
         ]

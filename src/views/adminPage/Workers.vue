@@ -92,7 +92,7 @@
                             } else if (response.data === -1) {
                                 that.$message.error("该编号用户尚未注册，请先注册")
                             } else {
-                                that.$message.error("未知错误")
+                                that.$message.error("删除失败")
                             }
                         })
                     } else {
