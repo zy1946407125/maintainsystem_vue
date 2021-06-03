@@ -20,6 +20,7 @@ import Workers from "../views/adminPage/Workers";
 import OrderStatistical from "../views/adminPage/OrderStatistical";
 import WorkerStatistical from "../views/adminPage/WorkerStatistical";
 import Dept from "../views/adminPage/Dept";
+import Managers from "../views/adminPage/Managers";
 
 //维修人员页面
 import WorkerIndex from "../views/workerPage/WorkerIndex";
@@ -52,7 +53,7 @@ const routes = [
         path: '/admin/index',
         name: '管理员--人员管理',
         component: AdminIndex,
-        children:[
+        children: [
             {
                 path: '/admin/selectAdmins',
                 name: '管理员列表',
@@ -63,13 +64,18 @@ const routes = [
                 name: '维修人员列表',
                 component: Workers,
             },
+            {
+                path: '/admin/selectManagers',
+                name: '部门负责人列表',
+                component: Managers,
+            },
         ]
     },
     {
         path: '/admin/index',
         name: '管理员--工单管理',
         component: AdminIndex,
-        children:[
+        children: [
             {
                 path: '/admin/order',
                 name: '工单查询',
@@ -81,13 +87,13 @@ const routes = [
                 component: SendOrder,
             },
             {
-                path:'/admin/handOrder',
-                name:'退单申请',
+                path: '/admin/handOrder',
+                name: '退单申请',
                 component: HandOrder
             },
             {
-                path:'/admin/chooseWorker',
-                name:'选择工人',
+                path: '/admin/chooseWorker',
+                name: '选择工人',
                 component: ChooseWorker
             },
         ]
@@ -96,7 +102,7 @@ const routes = [
         path: '/admin/index',
         name: '管理员--图表统计',
         component: AdminIndex,
-        children:[
+        children: [
             {
                 path: '/admin/orderStatistical',
                 name: '工单统计',
@@ -113,7 +119,7 @@ const routes = [
         path: '/admin/index',
         name: '管理员--设置',
         component: AdminIndex,
-        children:[
+        children: [
             {
                 path: '/admin/updatePassword',
                 name: '修改密码',
@@ -125,13 +131,13 @@ const routes = [
                 component: UpdatePhone,
             },
             {
-                path:'/admin/workType',
-                name:'维修类别',
+                path: '/admin/workType',
+                name: '维修类别',
                 component: WorkType
             },
             {
-                path:'/admin/dept',
-                name:'部门',
+                path: '/admin/dept',
+                name: '部门',
                 component: Dept
             }
         ]
@@ -140,7 +146,7 @@ const routes = [
         path: '/worker/index',
         name: '维修人员--工单管理',
         component: WorkerIndex,
-        children:[
+        children: [
             {
                 path: '/worker/order',
                 name: '我的工单',
@@ -172,7 +178,7 @@ const routes = [
         path: '/worker/index',
         name: '维修人员--设置',
         component: WorkerIndex,
-        children:[
+        children: [
             {
                 path: '/worker/updatePassword',
                 name: '修改密码',
@@ -189,7 +195,7 @@ const routes = [
         path: '/user/index',
         name: '普通用户--工单管理',
         component: UserIndex,
-        children:[
+        children: [
             {
                 path: '/user/order',
                 name: '我的工单',
@@ -211,7 +217,7 @@ const routes = [
         path: '/user/index',
         name: '普通用户--设置',
         component: UserIndex,
-        children:[
+        children: [
             {
                 path: '/user/updatePassword',
                 name: '修改密码',

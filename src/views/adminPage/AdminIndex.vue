@@ -11,34 +11,46 @@
                     <el-menu :default-openeds="['1','2','3','4']" router>
                         <el-submenu index="1">
                             <template slot="title"><i class="el-icon-user"></i>人员管理</template>
-                            <el-menu-item index="/admin/selectAdmins" :class="$route.path=='/admin/selectAdmins'?'is-active':''">管理人员
+                            <el-menu-item index="/admin/selectAdmins"
+                                          :class="$route.path=='/admin/selectAdmins'?'is-active':''">管理人员
                             </el-menu-item>
-                            <el-menu-item index="/admin/selectWorkers" :class="$route.path=='/admin/selectWorkers'?'is-active':''">维修人员
+                            <el-menu-item index="/admin/selectWorkers"
+                                          :class="$route.path=='/admin/selectWorkers'?'is-active':''">维修人员
+                            </el-menu-item>
+                            <el-menu-item index="/admin/selectManagers"
+                                          :class="$route.path=='/admin/selectManagers'?'is-active':''">部门负责人
                             </el-menu-item>
                         </el-submenu>
                         <el-submenu index="2">
                             <template slot="title"><i class="el-icon-user"></i>工单管理</template>
                             <el-menu-item index="/admin/order" :class="$route.path=='/admin/order'?'is-active':''">工单查询
                             </el-menu-item>
-                            <el-menu-item index="/admin/sendOrder" :class="$route.path=='/admin/sendOrder'?'is-active':''">工单指派
+                            <el-menu-item index="/admin/sendOrder"
+                                          :class="$route.path=='/admin/sendOrder'?'is-active':''">工单指派
                             </el-menu-item>
-                            <el-menu-item index="/admin/handOrder" :class="$route.path=='/admin/handOrder'?'is-active':''">退单申请
+                            <el-menu-item index="/admin/handOrder"
+                                          :class="$route.path=='/admin/handOrder'?'is-active':''">退单申请
                             </el-menu-item>
                         </el-submenu>
                         <el-submenu index="3">
                             <template slot="title"><i class="el-icon-user"></i>图表统计</template>
-                            <el-menu-item index="/admin/orderStatistical" :class="$route.path=='/admin/orderStatistical'?'is-active':''">工单统计
+                            <el-menu-item index="/admin/orderStatistical"
+                                          :class="$route.path=='/admin/orderStatistical'?'is-active':''">工单统计
                             </el-menu-item>
-                            <el-menu-item index="/admin/workerStatistical" :class="$route.path=='/admin/workerStatistical'?'is-active':''">工人统计
+                            <el-menu-item index="/admin/workerStatistical"
+                                          :class="$route.path=='/admin/workerStatistical'?'is-active':''">工人统计
                             </el-menu-item>
                         </el-submenu>
                         <el-submenu index="4">
                             <template slot="title"><i class="el-icon-user"></i>设置</template>
-                            <el-menu-item index="/admin/updatePassword" :class="$route.path=='/admin/updatePassword'?'is-active':''">修改密码
+                            <el-menu-item index="/admin/updatePassword"
+                                          :class="$route.path=='/admin/updatePassword'?'is-active':''">修改密码
                             </el-menu-item>
-                            <el-menu-item index="/admin/updatePhone" :class="$route.path=='/admin/updatePhone'?'is-active':''">修改手机号
+                            <el-menu-item index="/admin/updatePhone"
+                                          :class="$route.path=='/admin/updatePhone'?'is-active':''">修改手机号
                             </el-menu-item>
-                            <el-menu-item index="/admin/workType" :class="$route.path=='/admin/workType'?'is-active':''">维修类别
+                            <el-menu-item index="/admin/workType"
+                                          :class="$route.path=='/admin/workType'?'is-active':''">维修类别
                             </el-menu-item>
                             <el-menu-item index="/admin/dept" :class="$route.path=='/admin/dept'?'is-active':''">部门
                             </el-menu-item>
@@ -62,9 +74,7 @@
 </template>
 
 <script>
-    export default {
-
-    }
+    export default {}
 </script>
 
 <style scoped>

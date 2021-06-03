@@ -1,12 +1,12 @@
 <template>
     <div v-loading="loading">
-        <h1>维修人员</h1>
+        <h1>部门负责人</h1>
         <div style="display: flex;flex-direction: row">
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
                      class="demo-ruleForm">
-                <el-form-item label="维修类型" prop="type">
-                    <el-select v-model="ruleForm.type" placeholder="请选择维修类型">
-                        <el-option v-for="(item,index) in optionsType"
+                <el-form-item label="所在部门" prop="dept">
+                    <el-select v-model="ruleForm.dept" placeholder="请选择部门">
+                        <el-option v-for="(item,index) in optionsDept"
                                    :key="index"
                                    :value="item.value"
                                    :label="item.label"></el-option>
@@ -22,7 +22,7 @@
                     <el-input v-model="ruleForm.name" autocomplete="off" style="width: 220px"></el-input>
                 </el-form-item>
             </el-form>
-            <el-button @click="addWorker('ruleForm')" icon=el-icon-circle-plus-outline>添加维修人员</el-button>
+            <el-button @click="addManager('ruleForm')" icon=el-icon-circle-plus-outline>添加部门负责人</el-button>
         </div>
         <div>
             <el-table
@@ -41,8 +41,8 @@
                         width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="type"
-                        label="工作类型"
+                        prop="dept"
+                        label="所在部门"
                         width="200">
                 </el-table-column>
                 <el-table-column
@@ -70,25 +70,24 @@
 <script>
     export default {
         methods: {
-            addWorker(formName) {
+            addManager(formName) {
                 console.log(this.ruleForm.id)
-                console.log(this.ruleForm.type)
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let params = new URLSearchParams()
                         let that = this
                         that.loading = true
                         let id = this.ruleForm.id
-                        let type = this.ruleForm.type
+                        let dept = this.ruleForm.dept
                         let phone = this.ruleForm.phone
                         let name = this.ruleForm.name
                         const token = sessionStorage.getItem("token");
                         params.append('token', token)
                         params.append('id', id)
-                        params.append('type', type)
+                        params.append('dept', dept)
                         params.append('phone', phone)
                         params.append('username', name)
-                        axios.post('/superAdmin/addWorker', params).then(function (response) {
+                        axios.post('/superAdmin/addManager', params).then(function (response) {
                             that.loading = false
                             console.log(response)
                             that.loading = false
@@ -98,11 +97,11 @@
                             } else if (response.data.status === 445) {
                                 that.$message.error("您没有此操作权限")
                             } else if (response.data === 1) {
-                                that.$message.success("添加维修人员成功")
+                                that.$message.success("添加部门负责人成功")
                                 that.ruleForm.id = null
                                 that.ruleForm.phone = null
                                 that.ruleForm.name = null
-                                that.selectWorkers()
+                                that.selectManagers()
                             } else {
                                 that.$message.error("添加失败")
                             }
@@ -113,38 +112,16 @@
                     }
                 });
             },
-            selectWorkType() {
-                const token = sessionStorage.getItem("token");
-                const that = this;
-                that.loading = true;
-                let params = new URLSearchParams();
-                params.append('token', token)
-                axios.post("/user/selectWorkType", params).then(function (response) {
-                    that.loading = false
-                    if (response.data.status === 444) {
-                        that.$message.error("您的登录信息已过期，请重新登录")
-                        that.$router.replace("/")
-                    } else if (response.data.status === 445) {
-                        that.$message.error("您没有此操作权限")
-                    } else {
-                        for (let i = 0; i < response.data.length; i++) {
-                            let tmp = {
-                                value: response.data[i].type,
-                                label: response.data[i].type
-                            }
-                            that.optionsType.push(tmp)
-                        }
-                    }
-                })
-            },
-            selectWorkers() {
+            selectManagers() {
                 const that = this
                 that.loading = true
                 var token = sessionStorage.getItem("token")
                 var params = new URLSearchParams()
                 params.append('token', token)
-                axios.post('/admin/selectWorkers', params)
+
+                axios.post('/admin/selectManagers', params)
                     .then(function (response) {
+                        console.log(response)
                         that.loading = false
                         if (response.data.status === 444) {
                             that.$message.error("您的登录信息已过期，请重新登录")
@@ -156,6 +133,31 @@
                         }
                     })
             },
+            selectDept() {
+                const token = sessionStorage.getItem("token");
+                const that = this;
+                that.loading = true;
+                let params = new URLSearchParams();
+                params.append('token', token)
+                axios.post("/user/selectDept", params).then(function (response) {
+                    that.loading = false
+                    console.log(response)
+                    if (response.data.status === 444) {
+                        that.$message.error("您的登录信息已过期，请重新登录")
+                        that.$router.replace("/")
+                    } else if (response.data.status === 445) {
+                        that.$message.error("您没有此操作权限")
+                    } else {
+                        for (let i = 0; i < response.data.length; i++) {
+                            let tmp = {
+                                value: response.data[i].dept,
+                                label: response.data[i].dept
+                            }
+                            that.optionsDept.push(tmp)
+                        }
+                    }
+                })
+            },
             del(row) {
                 const that = this
                 that.loading = true
@@ -164,7 +166,7 @@
                 params.append('token', token)
                 params.append('id', row.id)
 
-                axios.post('/superAdmin/deleteWorker', params)
+                axios.post('/superAdmin/deleteManager', params)
                     .then(function (response) {
                         that.loading = false
                         if (response.data.status === 444) {
@@ -174,11 +176,9 @@
                             that.$message.error("您没有此操作权限")
                         } else if (response.data === 1) {
                             that.$message.success("删除成功")
-                            that.selectWorkers()
-                        } else if (response.data === -1) {
-                            that.$message.error("该维修人员已有工单，无法删除")
+                            that.selectManagers()
                         } else {
-                            that.$message.error("未知错误")
+                            that.$message.error("删除失败")
                         }
                     })
             }
@@ -201,18 +201,18 @@
                 }
             };
             return {
-                loading: false,
+                loading: true,
                 tableData: null,
-                optionsType: [],
+                optionsDept: [],
                 ruleForm: {
+                    dept: null,
                     id: null,
-                    type: null,
                     phone: null,
                     name: null,
                 },
                 rules: {
-                    type: [
-                        {required: true, message: '请选择维修类型', trigger: 'change'}
+                    dept: [
+                        {required: true, message: '请选择所在部门', trigger: 'change'},
                     ],
                     id: [
                         {required: true, message: '请输入用户编号', trigger: 'blur'},
@@ -230,8 +230,8 @@
             }
         },
         created() {
-            this.selectWorkers()
-            this.selectWorkType()
+            this.selectManagers()
+            this.selectDept()
         },
     }
 </script>

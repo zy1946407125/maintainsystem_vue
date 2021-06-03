@@ -1,5 +1,6 @@
 <template>
     <div v-loading="loading">
+        <h1>管理人员</h1>
         <div style="display: flex;flex-direction: row">
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
                      class="demo-ruleForm">
@@ -105,9 +106,9 @@
                                 that.$message.error("您没有此操作权限")
                             } else if (response.data === 1) {
                                 that.$message.success("添加管理员成功")
-                                that.ruleForm.id=null
-                                that.ruleForm.phone=null
-                                that.ruleForm.name=null
+                                that.ruleForm.id = null
+                                that.ruleForm.phone = null
+                                that.ruleForm.name = null
                                 that.selectAdmins()
                             } else {
                                 that.$message.error("添加失败")
