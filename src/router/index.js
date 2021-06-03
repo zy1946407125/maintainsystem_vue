@@ -19,6 +19,7 @@ import Admins from "../views/adminPage/Admins";
 import Workers from "../views/adminPage/Workers";
 import OrderStatistical from "../views/adminPage/OrderStatistical";
 import WorkerStatistical from "../views/adminPage/WorkerStatistical";
+import Dept from "../views/adminPage/Dept";
 
 //维修人员页面
 import WorkerIndex from "../views/workerPage/WorkerIndex";
@@ -127,6 +128,11 @@ const routes = [
                 path:'/admin/workType',
                 name:'维修类别',
                 component: WorkType
+            },
+            {
+                path:'/admin/dept',
+                name:'系部',
+                component: Dept
             }
         ]
     },
