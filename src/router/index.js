@@ -30,6 +30,11 @@ import MaintainOrder from "../views/workerPage/MaintainOrder";
 import PrintOrder from "../views/workerPage/PrintOrder";
 import PrintOrders from "../views/workerPage/PrintOrders";
 
+//部门负责人页面
+import ManagerIndex from "../views/managerPage/ManagerIndex";
+import DeptOrders from "../views/managerPage/DeptOrders";
+import DeptUsers from "../views/managerPage/DeptUsers";
+
 //普通用户页面
 import UserIndex from "../views/userPage/UserIndex";
 import UserOrder from "../views/userPage/UserOrder";
@@ -192,6 +197,47 @@ const routes = [
         ]
     },
     {
+        path: '/manager/index',
+        name: '部门负责人--工单管理',
+        component: ManagerIndex,
+        children: [
+            {
+                path: '/manager/deptOrders',
+                name: '部门工单',
+                component: DeptOrders,
+            },
+        ]
+    },
+    {
+        path: '/manager/index',
+        name: '部门负责人--人员管理',
+        component: ManagerIndex,
+        children: [
+            {
+                path: '/manager/deptUsers',
+                name: '部门人员',
+                component: DeptUsers,
+            },
+        ]
+    },
+    {
+        path: '/manager/index',
+        name: '部门负责人--设置',
+        component: ManagerIndex,
+        children: [
+            {
+                path: '/manager/updatePassword',
+                name: '修改密码',
+                component: UpdatePassword,
+            },
+            {
+                path: '/manager/updatePhone',
+                name: '修改手机号',
+                component: UpdatePhone,
+            },
+        ]
+    },
+    {
         path: '/user/index',
         name: '普通用户--工单管理',
         component: UserIndex,
@@ -251,7 +297,8 @@ router.beforeEach((to, from, next) => {
             let role = JSON.parse(sessionStorage.getItem('user')).role
             const path1 = /^\/admin\/.*$/
             const path2 = /^\/worker\/.*$/
-            const path3 = /^\/user\/.*$/
+            const path3 = /^\/manager\/.*$/
+            const path4 = /^\/user\/.*$/
             if (path1.test(to.path)) {
                 var i = 0
                 for (i = 0; i < role.length; i++) {
@@ -275,6 +322,17 @@ router.beforeEach((to, from, next) => {
                     next('/');
                 }
             } else if (path3.test(to.path)) {
+                var i = 0
+                for (i = 0; i < role.length; i++) {
+                    if (role[i] === 'manager') {
+                        next()
+                        break
+                    }
+                }
+                if (i >= role.length) {
+                    next('/');
+                }
+            } else if (path4.test(to.path)) {
                 var i = 0
                 for (i = 0; i < role.length; i++) {
                     if (role[i] === 'user') {

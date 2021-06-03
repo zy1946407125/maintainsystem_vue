@@ -69,6 +69,9 @@
                     value: 'worker',
                     label: '维修人员'
                 }, {
+                    value: 'manager',
+                    label: '部门负责人'
+                }, {
                     value: 'user',
                     label: '普通用户'
                 }],
@@ -106,6 +109,7 @@
                             params.append('password', that.ruleForm.password)
                             axios.post('/user/login', params)
                                 .then(function (response) {
+                                    console.log(response)
                                     if (response.data.status === 1) {
                                         var i = 0
                                         for (i = 0; i < response.data.user.role.length; i++) {
