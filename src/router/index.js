@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 //公共页面
 import Login from "../views/Login";
-import Register from "../views/Register";
+// import Register from "../views/Register";
 import UpdatePassword from "../views/UpdatePassword";
 import UpdatePhone from "../views/UpdatePhone";
 
@@ -49,11 +49,11 @@ const routes = [
         name: '登录',
         component: Login
     },
-    {
-        path: '/register',
-        name: '注册',
-        component: Register
-    },
+    // {
+    //     path: '/register',
+    //     name: '注册',
+    //     component: Register
+    // },
     {
         path: '/admin/index',
         name: '管理员--人员管理',

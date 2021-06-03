@@ -42,7 +42,7 @@
                 </el-form-item>
 
             </el-form>
-            <div style="color: black;cursor: pointer;" @click="registerUser">没有账号？立即注册</div>
+<!--            <div style="color: black;cursor: pointer;" @click="registerUser">没有账号？立即注册</div>-->
         </div>
     </div>
 </template>
