@@ -42,11 +42,6 @@
                         width="150">
                 </el-table-column>
                 <el-table-column
-                        prop="type"
-                        label="维修类别"
-                        width="120">
-                </el-table-column>
-                <el-table-column
                         prop="address"
                         label="维修地址"
                         width="120">
@@ -82,25 +77,15 @@
                         width="120">
                 </el-table-column>
                 <el-table-column
-                        prop="wname"
-                        label="维修人姓名"
-                        :formatter="formatterW_name"
-                        width="120">
-                </el-table-column>
-                <el-table-column
-                        prop="wphone"
-                        label="维修人联系方式"
-                        :formatter="formatterW_phone"
-                        width="120">
-                </el-table-column>
-                <el-table-column
-                        prop="w_reason"
+                        prop="workerreason"
                         label="工人退单理由"
+                        :formatter="formatterW_reason"
                         width="120">
                 </el-table-column>
                 <el-table-column
-                        prop="a_reason"
+                        prop="adminreason"
                         label="管理员拒绝理由"
+                        :formatter="formatterA_reason"
                         width="120">
                 </el-table-column>
                 <el-table-column
@@ -256,6 +241,22 @@
             }
         },
         methods: {
+            formatterW_reason: function (row, column, cellValue) {
+                // if (cellValue === "" || cellValue === null) {
+                //     console.log('未申请退单')
+                //     return '未申请退单'
+                // } else {
+                //     console.log('已申请退单')
+                //     return cellValue
+                // }
+            },
+            formatterA_reason: function (row, column, cellValue) {
+                // if (cellValue === "" || cellValue === null) {
+                //     return '未申请退单或已同意退单'
+                // } else {
+                //     return cellValue
+                // }
+            },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
                 this.size = val
@@ -347,7 +348,7 @@
                     params.append("startTime", this.valueTime[0])
                     params.append('endTime', this.valueTime[1])
                     params.append('pageNum', 1)
-                    params.append('pageSize', 5)
+                    params.append('pageSize', this.size)
                     axios.post('/worker/selectOrders', params)
                         .then(function (response) {
                             that.loading = false
@@ -360,7 +361,7 @@
                             } else {
                                 that.tableData = response.data.orders
                                 that.total = response.data.total
-                                that.currentPage=1
+                                that.currentPage = 1
                             }
                         })
                 }

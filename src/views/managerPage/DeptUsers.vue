@@ -144,7 +144,7 @@
                             that.$message.success("删除成功")
                             that.selectUsersByDept()
                         } else if (response.data === -1) {
-                            that.$message.success("该用户存在工单，无法删除")
+                            that.$message.error("该用户存在工单，无法删除")
                         } else {
                             that.$message.error("删除失败")
                         }

@@ -14,11 +14,6 @@
                         width="150">
                 </el-table-column>
                 <el-table-column
-                        prop="type"
-                        label="维修类别"
-                        width="120">
-                </el-table-column>
-                <el-table-column
                         prop="address"
                         label="维修地址"
                         width="120">
