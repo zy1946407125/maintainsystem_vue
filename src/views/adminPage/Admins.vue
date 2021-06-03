@@ -37,18 +37,18 @@
                 <el-table-column
                         prop="username"
                         label="姓名"
-                        width="120">
+                        width="200">
                 </el-table-column>
                 <el-table-column
                         prop="phone"
                         label="联系方式"
-                        width="120">
+                        width="200">
                 </el-table-column>
                 <el-table-column
                         prop="power"
                         label="权限"
                         :formatter="formatterPower"
-                        width="120">
+                        width="200">
                 </el-table-column>
                 <el-table-column
                         label="操作"
