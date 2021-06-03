@@ -45,27 +45,27 @@
                             width="120">
                     </el-table-column>
                     <el-table-column
-                            prop="score.avg_score1"
+                            prop="percentage"
+                            label="完成率"
+                            width="100">
+                    </el-table-column>
+                    <el-table-column
+                            prop="score1"
                             label="维修速度"
                             :formatter="formatterScore1"
                             width="120">
                     </el-table-column>
                     <el-table-column
-                            prop="score.avg_score2"
+                            prop="score2"
                             label="维修质量"
                             :formatter="formatterScore2"
                             width="120">
                     </el-table-column>
                     <el-table-column
-                            prop="score.avg_score3"
+                            prop="score3"
                             label="维修员态度"
                             :formatter="formatterScore3"
                             width="150">
-                    </el-table-column>
-                    <el-table-column
-                            prop="percentage"
-                            label="完成率"
-                            width="100">
                     </el-table-column>
                 </el-table>
             </div>
