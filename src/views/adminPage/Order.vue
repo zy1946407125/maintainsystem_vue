@@ -166,7 +166,7 @@
                 type: '',
                 valueTime: '',
                 currentPage: 1,
-                size: 5,
+                size: 20,
                 tableData: null,
                 total: null,
                 imgUrl: null,
