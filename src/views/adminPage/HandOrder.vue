@@ -64,7 +64,7 @@
                         width="120">
                 </el-table-column>
                 <el-table-column
-                        prop="workerReason"
+                        prop="workerreason"
                         label="退单原因"
                         width="220">
                 </el-table-column>

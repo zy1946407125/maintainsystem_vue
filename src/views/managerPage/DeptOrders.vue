@@ -104,12 +104,12 @@
                         width="120">
                 </el-table-column>
                 <el-table-column
-                        prop="w_reason"
+                        prop="workerreason"
                         label="工人退单理由"
                         width="120">
                 </el-table-column>
                 <el-table-column
-                        prop="a_reason"
+                        prop="adminreason"
                         label="管理员拒绝理由"
                         width="120">
                 </el-table-column>
