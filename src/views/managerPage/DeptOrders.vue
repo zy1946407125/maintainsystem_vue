@@ -423,6 +423,14 @@
                     }
                     that.type = that.optionsType[0].value
                     that.status = that.optionsStatus[0].value
+
+                    //设置初始时间默认一周
+                    var end = new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1
+                    var start = new Date(new Date().toLocaleDateString()).getTime() - 3600 * 1000 * 24 * 6
+                    var valueTime = new Array()
+                    valueTime.push(start)
+                    valueTime.push(end)
+                    that.valueTime = valueTime
                 }
             })
         }
