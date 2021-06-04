@@ -106,11 +106,13 @@
                 <el-table-column
                         prop="workerreason"
                         label="工人申请退单理由"
+                        :formatter="formatterW_reason"
                         width="200">
                 </el-table-column>
                 <el-table-column
                         prop="adminreason"
                         label="管理员拒绝退单理由"
+                        :formatter="formatterA_reason"
                         width="200">
                 </el-table-column>
                 <el-table-column
@@ -134,7 +136,9 @@
                                 title="确认取消工单吗？"
                                 @confirm="cancelOrder(scope.row)"
                         >
-                            <el-button :disabled="scope.row.status!=='未派单'" slot="reference" icon="el-icon-s-promotion">撤单</el-button>
+                            <el-button :disabled="scope.row.status!=='未派单'" slot="reference" icon="el-icon-s-promotion">
+                                撤单
+                            </el-button>
                         </el-popconfirm>
                     </template>
                 </el-table-column>
@@ -190,9 +194,12 @@
                 }, {
                     value: '管理员已撤单',
                     label: '管理员已撤单'
-                },{
+                }, {
                     value: '管理员已派单',
                     label: '管理员已派单'
+                }, {
+                    value: '工人申请退单',
+                    label: '工人申请退单'
                 }, {
                     value: '工人已退单',
                     label: '工人已退单'
@@ -263,6 +270,24 @@
             }
         },
         methods: {
+            formatterW_reason: function (row, column, cellValue) {
+                // if (cellValue === "" || cellValue === null) {
+                //     console.log('未申请退单')
+                //     return '未申请退单'
+                // } else {
+                //     console.log('已申请退单')
+                //     return cellValue
+                // }
+                return cellValue
+            },
+            formatterA_reason: function (row, column, cellValue) {
+                // if (cellValue === "" || cellValue === null) {
+                //     return '未申请退单或已同意退单'
+                // } else {
+                //     return cellValue
+                // }
+                return cellValue
+            },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
                 this.size = val
@@ -273,15 +298,15 @@
                 console.log(`当前页: ${val}`);
                 this.select2()
             },
-            cancelOrder(row){
+            cancelOrder(row) {
                 console.log(row)
                 const that = this
                 that.loading = true
                 var token = sessionStorage.getItem("token")
                 var params = new URLSearchParams()
                 params.append('token', token)
-                params.append('id',row.id)
-                axios.post('/user/removeOrder',params).then(function (response) {
+                params.append('id', row.id)
+                axios.post('/user/removeOrder', params).then(function (response) {
                     console.log(response)
                     that.loading = false
                     console.log(response)
@@ -290,10 +315,10 @@
                         that.$router.replace("/")
                     } else if (response.data.status === 445) {
                         that.$message.error("您没有此操作权限")
-                    } else if(response.data===1){
+                    } else if (response.data === 1) {
                         that.$message.success("撤单成功")
                         that.select()
-                    }else {
+                    } else {
                         that.$message.error("撤单失败")
                     }
                 })
@@ -328,7 +353,7 @@
                             } else {
                                 that.tableData = response.data.orders
                                 that.total = response.data.total
-                                that.currentPage=1
+                                that.currentPage = 1
                             }
                         })
                 }

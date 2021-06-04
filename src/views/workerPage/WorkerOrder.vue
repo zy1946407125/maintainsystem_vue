@@ -78,15 +78,15 @@
                 </el-table-column>
                 <el-table-column
                         prop="workerreason"
-                        label="工人退单理由"
+                        label="工人申请退单理由"
                         :formatter="formatterW_reason"
-                        width="120">
+                        width="200">
                 </el-table-column>
                 <el-table-column
                         prop="adminreason"
-                        label="管理员拒绝理由"
+                        label="管理员拒绝退单理由"
                         :formatter="formatterA_reason"
-                        width="120">
+                        width="200">
                 </el-table-column>
                 <el-table-column
                         prop="consumable"
@@ -172,6 +172,9 @@
                     value: '管理员已派单',
                     label: '管理员已派单'
                 }, {
+                    value: '工人申请退单',
+                    label: '工人申请退单'
+                }, {
                     value: '工人已退单',
                     label: '工人已退单'
                 }, {
@@ -249,6 +252,7 @@
                 //     console.log('已申请退单')
                 //     return cellValue
                 // }
+                return cellValue
             },
             formatterA_reason: function (row, column, cellValue) {
                 // if (cellValue === "" || cellValue === null) {
@@ -256,6 +260,7 @@
                 // } else {
                 //     return cellValue
                 // }
+                return cellValue
             },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
