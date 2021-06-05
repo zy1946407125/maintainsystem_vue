@@ -208,6 +208,7 @@
                             } else if (response.data === 1) {
                                 that.$message.success("拒绝成功")
                                 that.dialogFormVisible = false
+                                that.form.adminReason = null
                                 that.select()
                             } else if (response.data === 0) {
                                 that.$message.error("拒绝失败")

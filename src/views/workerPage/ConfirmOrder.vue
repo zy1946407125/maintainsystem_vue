@@ -157,6 +157,7 @@
                             } else if (response.data === 1) {
                                 that.$message.success("提交申请成功")
                                 that.dialogFormVisible = false
+                                that.form.workerReason = null
                                 that.select()
                             } else if (response.data === 0) {
                                 that.$message.error("提交失败")
