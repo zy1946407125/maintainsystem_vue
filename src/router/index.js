@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 //公共页面
 import Login from "../views/Login";
 // import Register from "../views/Register";
+import ResetPassword from "../views/ResetPassword";
 import UpdatePassword from "../views/UpdatePassword";
 import UpdatePhone from "../views/UpdatePhone";
 
@@ -50,6 +51,11 @@ const routes = [
         path: '/',
         name: '登录',
         component: Login
+    },
+    {
+        path: '/resetPassword',
+        name: '密码重置',
+        component: ResetPassword
     },
     // {
     //     path: '/register',
@@ -297,7 +303,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     //无需拦截的页面
-    if (to.path === '/' || to.path === '/register') {
+    if (to.path === '/' || to.path === '/resetPassword') {
         next();
     } else {
         //判断是否登录

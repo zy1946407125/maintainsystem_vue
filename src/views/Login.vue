@@ -42,7 +42,8 @@
                 </el-form-item>
 
             </el-form>
-<!--            <div style="color: black;cursor: pointer;" @click="registerUser">没有账号？立即注册</div>-->
+            <!--            <div style="color: black;cursor: pointer;" @click="registerUser">没有账号？立即注册</div>-->
+            <div style="color: black;cursor: pointer;" @click="forgotPassword">忘记密码？</div>
         </div>
     </div>
 </template>
@@ -95,6 +96,9 @@
         methods: {
             registerUser() {
                 this.$router.push('/register')
+            },
+            forgotPassword() {
+                this.$router.push('/resetPassword')
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
