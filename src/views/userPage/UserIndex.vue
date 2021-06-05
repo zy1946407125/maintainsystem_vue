@@ -24,8 +24,20 @@
             </el-header>
             <el-container style="height: 100%; border: 1px solid #eee">
                 <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-                    <el-menu :default-openeds="['1','2']" router>
+                    <el-menu :default-openeds="['1','2','3']" router>
                         <el-submenu index="1">
+                            <template slot="title"><i class="el-icon-user"></i>消息管理</template>
+                            <el-menu-item index="/user/unReadMessages"
+                                          :class="$route.path=='/user/unReadMessages'?'is-active':''">
+                                <el-badge :value="unReadNum" class="item">
+                                    未读消息
+                                </el-badge>
+                            </el-menu-item>
+                            <el-menu-item index="/user/historyMessages"
+                                          :class="$route.path=='/user/historyMessages'?'is-active':''">历史消息
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-submenu index="2">
                             <template slot="title"><i class="el-icon-user"></i>工单管理</template>
                             <el-menu-item index="/user/order" :class="$route.path=='/user/order'?'is-active':''">我的工单
                             </el-menu-item>
@@ -34,7 +46,7 @@
                             <el-menu-item index="/user/addOrder" :class="$route.path=='/user/addOrder'?'is-active':''">新建工单
                             </el-menu-item>
                         </el-submenu>
-                        <el-submenu index="2">
+                        <el-submenu index="3">
                             <template slot="title"><i class="el-icon-user"></i>设置</template>
                             <el-menu-item index="/user/updatePassword" :class="$route.path=='/user/updatePassword'?'is-active':''">修改密码
                             </el-menu-item>
@@ -63,7 +75,8 @@
     export default {
         data() {
             return {
-                name: "用户"
+                name: "用户",
+                unReadNum: null,
             }
         },
         methods: {
@@ -96,6 +109,30 @@
         created() {
             var user = JSON.parse(sessionStorage.getItem("user"))
             this.name = user.username
+
+            var user = JSON.parse(sessionStorage.getItem("user"))
+            this.name = user.username
+
+            const that = this
+            var params = new URLSearchParams()
+            var token = sessionStorage.getItem("token")
+            params.append("token", token)
+            params.append("status", "未读")
+            that.loading = true
+            axios.post('/user/selectMessage', params)
+                .then(function (response) {
+                    that.loading = false
+                    if (response.data.status === 444) {
+                        that.$message.error("您的登录信息已过期，请重新登录")
+                        that.$router.replace("/")
+                    } else if (response.data.status === 445) {
+                        that.$message.error("您没有此操作权限")
+                    } else {
+                        if (response.data.messages.length !== 0) {
+                            that.unReadNum = response.data.messages.length
+                        }
+                    }
+                })
         }
     }
 </script>

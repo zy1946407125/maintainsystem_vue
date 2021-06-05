@@ -3,9 +3,9 @@
         <!--        <div class="main" v-title data-title="湖南警察学院维修管理系统">-->
         <!--        </div>-->
         <el-container>
-<!--            <el-header style="text-align: center;line-height: 45px;height: 90px">-->
-<!--                <h1 style="line-height: 45px;">湖南警察学院维修管理系统</h1>-->
-<!--            </el-header>-->
+            <!--            <el-header style="text-align: center;line-height: 45px;height: 90px">-->
+            <!--                <h1 style="line-height: 45px;">湖南警察学院维修管理系统</h1>-->
+            <!--            </el-header>-->
             <el-header style="text-align: center;line-height: 45px;height: 95px">
                 <div>
                     <div style="height: 5px"></div>
@@ -24,21 +24,38 @@
             </el-header>
             <el-container style="height: 100%; border: 1px solid #eee">
                 <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-                    <el-menu :default-openeds="['1','2']" router>
+                    <el-menu :default-openeds="['1','2','3']" router>
                         <el-submenu index="1">
-                            <template slot="title"><i class="el-icon-user"></i>工单管理</template>
-                            <el-menu-item index="/worker/order" :class="$route.path=='/worker/orde'?'is-active':''">我的工单
+                            <template slot="title"><i class="el-icon-user"></i>消息管理</template>
+                            <el-menu-item index="/worker/unReadMessages"
+                                          :class="$route.path=='/worker/unReadMessages'?'is-active':''">
+                                <el-badge :value="unReadNum" class="item">
+                                    未读消息
+                                </el-badge>
                             </el-menu-item>
-                            <el-menu-item index="/worker/confirmOrder" :class="$route.path=='/worker/confirmOrder'?'is-active':''">工单确认
-                            </el-menu-item>
-                            <el-menu-item index="/worker/maintainOrder" :class="$route.path=='/worker/maintainOrder'?'is-active':''">正在维修
+                            <el-menu-item index="/worker/historyMessages"
+                                          :class="$route.path=='/worker/historyMessages'?'is-active':''">历史消息
                             </el-menu-item>
                         </el-submenu>
                         <el-submenu index="2">
-                            <template slot="title"><i class="el-icon-user"></i>设置</template>
-                            <el-menu-item index="/worker/updatePassword" :class="$route.path=='/worker/updatePassword'?'is-active':''">修改密码
+                            <template slot="title"><i class="el-icon-user"></i>工单管理</template>
+                            <el-menu-item index="/worker/order" :class="$route.path=='/worker/order'?'is-active':''">
+                                我的工单
                             </el-menu-item>
-                            <el-menu-item index="/worker/updatePhone" :class="$route.path=='/worker/updatePhone'?'is-active':''">修改手机号
+                            <el-menu-item index="/worker/confirmOrder"
+                                          :class="$route.path=='/worker/confirmOrder'?'is-active':''">工单确认
+                            </el-menu-item>
+                            <el-menu-item index="/worker/maintainOrder"
+                                          :class="$route.path=='/worker/maintainOrder'?'is-active':''">正在维修
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-submenu index="3">
+                            <template slot="title"><i class="el-icon-user"></i>设置</template>
+                            <el-menu-item index="/worker/updatePassword"
+                                          :class="$route.path=='/worker/updatePassword'?'is-active':''">修改密码
+                            </el-menu-item>
+                            <el-menu-item index="/worker/updatePhone"
+                                          :class="$route.path=='/worker/updatePhone'?'is-active':''">修改手机号
                             </el-menu-item>
                         </el-submenu>
                     </el-menu>
@@ -63,7 +80,8 @@
     export default {
         data() {
             return {
-                name: "维修人员"
+                name: "维修人员",
+                unReadNum: null,
             }
         },
         methods: {
@@ -74,7 +92,6 @@
                 var params = new URLSearchParams()
                 params.append('token', token)
                 axios.post('/user/logout', params).then(function (response) {
-                    console.log(response)
                     that.loading = false
                     if (response.data.status === 444) {
                         that.$message.error("您的登录信息已过期，请重新登录")
@@ -96,6 +113,27 @@
         created() {
             var user = JSON.parse(sessionStorage.getItem("user"))
             this.name = user.username
+
+            const that = this
+            var params = new URLSearchParams()
+            var token = sessionStorage.getItem("token")
+            params.append("token", token)
+            params.append("status", "未读")
+            that.loading = true
+            axios.post('/user/selectMessage', params)
+                .then(function (response) {
+                    that.loading = false
+                    if (response.data.status === 444) {
+                        that.$message.error("您的登录信息已过期，请重新登录")
+                        that.$router.replace("/")
+                    } else if (response.data.status === 445) {
+                        that.$message.error("您没有此操作权限")
+                    } else {
+                        if (response.data.messages.length !== 0) {
+                            that.unReadNum = response.data.messages.length
+                        }
+                    }
+                })
         }
     }
 </script>

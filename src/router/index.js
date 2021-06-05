@@ -7,6 +7,8 @@ import Login from "../views/Login";
 import ResetPassword from "../views/ResetPassword";
 import UpdatePassword from "../views/UpdatePassword";
 import UpdatePhone from "../views/UpdatePhone";
+import unReadMessages from "../views/unReadMessages";
+import historyMessages from "../views/historyMessages";
 
 
 //管理员页面
@@ -167,6 +169,23 @@ const routes = [
     },
     {
         path: '/worker/index',
+        name: '维修人员--消息',
+        component: WorkerIndex,
+        children: [
+            {
+                path: '/worker/unReadMessages',
+                name: '未读消息',
+                component: unReadMessages,
+            },
+            {
+                path: '/worker/historyMessages',
+                name: '历史消息',
+                component: historyMessages,
+            },
+        ]
+    },
+    {
+        path: '/worker/index',
         name: '维修人员--工单管理',
         component: WorkerIndex,
         children: [
@@ -252,6 +271,23 @@ const routes = [
                 path: '/manager/updatePhone',
                 name: '修改手机号',
                 component: UpdatePhone,
+            },
+        ]
+    },
+    {
+        path: '/user/index',
+        name: '普通用户--消息',
+        component: UserIndex,
+        children: [
+            {
+                path: '/user/unReadMessages',
+                name: '未读消息',
+                component: unReadMessages,
+            },
+            {
+                path: '/user/historyMessages',
+                name: '历史消息',
+                component: historyMessages,
             },
         ]
     },
