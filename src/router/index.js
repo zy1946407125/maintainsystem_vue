@@ -22,6 +22,7 @@ import WorkerStatistical from "../views/adminPage/WorkerStatistical";
 import Dept from "../views/adminPage/Dept";
 import Managers from "../views/adminPage/Managers";
 import SetWarn from "../views/adminPage/SetWarn";
+import Warning from "../views/adminPage/Warning";
 
 //维修人员页面
 import WorkerIndex from "../views/workerPage/WorkerIndex";
@@ -96,6 +97,11 @@ const routes = [
                 path: '/admin/handOrder',
                 name: '退单申请',
                 component: HandOrder
+            },
+            {
+                path: '/admin/Warning',
+                name: '预警提醒',
+                component: Warning
             },
             {
                 path: '/admin/chooseWorker',

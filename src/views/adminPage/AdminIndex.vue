@@ -31,6 +31,9 @@
                             <el-menu-item index="/admin/handOrder"
                                           :class="$route.path=='/admin/handOrder'?'is-active':''">退单申请
                             </el-menu-item>
+                            <el-menu-item index="/admin/Warning"
+                                          :class="$route.path=='/admin/Warning'?'is-active':''">预警提醒
+                            </el-menu-item>
                         </el-submenu>
                         <el-submenu index="3">
                             <template slot="title"><i class="el-icon-user"></i>图表统计</template>
