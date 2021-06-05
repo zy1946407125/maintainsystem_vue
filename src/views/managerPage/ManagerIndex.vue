@@ -3,8 +3,24 @@
         <!--        <div class="main" v-title data-title="湖南警察学院维修管理系统">-->
         <!--        </div>-->
         <el-container>
-            <el-header style="text-align: center;line-height: 45px;height: 90px">
-                <h1 style="line-height: 45px;">湖南警察学院维修管理系统</h1>
+<!--            <el-header style="text-align: center;line-height: 45px;height: 90px">-->
+<!--                <h1 style="line-height: 45px;">湖南警察学院维修管理系统</h1>-->
+<!--            </el-header>-->
+            <el-header style="text-align: center;line-height: 45px;height: 95px">
+                <div>
+                    <div style="height: 5px"></div>
+                    <div style="font-size: 35px;font-weight: bold">湖南警察学院维修管理系统</div>
+                    <div style="display: flex;flex-direction: row;float:right">
+                        <div>欢迎您：{{name}}</div>
+                        <div style="width: 20px"></div>
+                        <el-popconfirm
+                                title="确认退出系统吗？"
+                                @confirm="logout">
+                            <el-button type="danger" slot="reference" plain>退出</el-button>
+                        </el-popconfirm>
+                        <div style="width: 50px"></div>
+                    </div>
+                </div>
             </el-header>
             <el-container style="height: 100%; border: 1px solid #eee">
                 <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
@@ -49,7 +65,44 @@
 </template>
 
 <script>
-    export default {}
+    export default {
+        data() {
+            return {
+                name: "部门负责人"
+            }
+        },
+        methods: {
+            logout() {
+                const that = this
+                that.loading = true
+                var token = sessionStorage.getItem("token")
+                var params = new URLSearchParams()
+                params.append('token', token)
+                axios.post('/user/logout', params).then(function (response) {
+                    console.log(response)
+                    that.loading = false
+                    if (response.data.status === 444) {
+                        that.$message.error("您的登录信息已过期，请重新登录")
+                        that.$router.replace("/")
+                    } else if (response.data.status === 445) {
+                        that.$message.error("您没有此操作权限")
+                    } else if (response.data === 1) {
+                        sessionStorage.removeItem("user")
+                        sessionStorage.removeItem("loginState")
+                        sessionStorage.removeItem("token")
+                        that.$message.success("退出成功")
+                        that.$router.replace('/')
+                    } else {
+                        that.$message.error("退出失败")
+                    }
+                })
+            }
+        },
+        created() {
+            var user = JSON.parse(sessionStorage.getItem("user"))
+            this.name = user.username
+        }
+    }
 </script>
 
 <style scoped>
