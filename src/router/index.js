@@ -21,6 +21,7 @@ import OrderStatistical from "../views/adminPage/OrderStatistical";
 import WorkerStatistical from "../views/adminPage/WorkerStatistical";
 import Dept from "../views/adminPage/Dept";
 import Managers from "../views/adminPage/Managers";
+import SetWarn from "../views/adminPage/SetWarn";
 
 //维修人员页面
 import WorkerIndex from "../views/workerPage/WorkerIndex";
@@ -144,6 +145,11 @@ const routes = [
                 path: '/admin/dept',
                 name: '部门',
                 component: Dept
+            },
+            {
+                path: '/admin/setWarn',
+                name: '预警设置',
+                component: SetWarn
             }
         ]
     },

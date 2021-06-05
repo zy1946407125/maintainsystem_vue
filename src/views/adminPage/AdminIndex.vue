@@ -54,6 +54,8 @@
                             </el-menu-item>
                             <el-menu-item index="/admin/dept" :class="$route.path=='/admin/dept'?'is-active':''">部门
                             </el-menu-item>
+                            <el-menu-item index="/admin/setWarn" :class="$route.path=='/admin/setWarn'?'is-active':''">预警设置
+                            </el-menu-item>
                         </el-submenu>
                     </el-menu>
                 </el-aside>
