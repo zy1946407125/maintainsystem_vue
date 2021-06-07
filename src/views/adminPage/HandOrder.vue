@@ -225,6 +225,7 @@
                 var params = new URLSearchParams()
                 params.append('token', token)
                 params.append('status', '工人申请退单')
+                params.append('type', '全部类别')
                 axios.post('/admin/selectOrders', params)
                     .then(function (response) {
                         that.loading = false

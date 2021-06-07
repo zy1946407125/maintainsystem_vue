@@ -1,7 +1,7 @@
 <template>
     <div v-loading="loading">
         <h1>历史消息</h1>
-        <div v-for="item in unReadMessage">
+        <div v-for="item in historyMessages">
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>消息通知</span>
@@ -20,10 +20,10 @@
 
 <script>
     export default {
-        name: "unReadMessages",
+        name: "historyMessages",
         data() {
             return {
-                unReadMessage: null,
+                historyMessages: null,
                 loading:false
             }
         },
@@ -44,9 +44,9 @@
                         } else if (response.data.status === 445) {
                             that.$message.error("您没有此操作权限")
                         } else {
-                            that.unReadMessage = response.data.messages
+                            that.historyMessages = response.data.messages
                             if(response.data.messages.length===0){
-                                that.$message.warning("暂无未读消息")
+                                that.$message.warning("暂无消息")
                             }
                         }
                     })

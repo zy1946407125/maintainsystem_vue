@@ -122,7 +122,7 @@
                 </el-table-column>
                 <el-table-column
                         label="操作"
-                        width="360">
+                        width="500">
                     <template slot-scope="scope">
                         <el-button :disabled="scope.row.imgsfileids1==null||scope.row.imgsfileids1=='[]'"
                                    slot="reference"
@@ -132,6 +132,16 @@
                                    slot="reference"
                                    icon="el-icon-s-promotion" @click="lookImg2(scope.row)">查看维修图片
                         </el-button>
+                        <el-popconfirm
+                                title="确认取消工单吗？"
+                                @confirm="cancelOrder(scope.row)"
+                        >
+                            <el-button
+                                    :disabled="scope.row.status=='已完成'||scope.row.status=='管理员已撤单'||scope.row.status=='工人已撤单'||scope.row.status=='用户已撤单'"
+                                    slot="reference"
+                                    icon="el-icon-s-promotion">撤单
+                            </el-button>
+                        </el-popconfirm>
                     </template>
                 </el-table-column>
             </el-table>
@@ -288,6 +298,30 @@
             handleCurrentChange(val) {
                 console.log(`当前页: ${val}`);
                 this.select2()
+            },
+            cancelOrder(row) {
+                console.log(row)
+                const that = this
+                that.loading = true
+                var token = sessionStorage.getItem("token")
+                var params = new URLSearchParams()
+                params.append('token', token)
+                params.append('id', row.id)
+                axios.post('/admin/removeOrder', params).then(function (response) {
+                    console.log(response)
+                    that.loading = false
+                    if (response.data.status === 444) {
+                        that.$message.error("您的登录信息已过期，请重新登录")
+                        that.$router.replace("/")
+                    } else if (response.data.status === 445) {
+                        that.$message.error("您没有此操作权限")
+                    } else if (response.data === 1) {
+                        that.$message.success("撤单成功")
+                        that.select()
+                    } else {
+                        that.$message.error("撤单失败")
+                    }
+                })
             },
             lookImg1(row) {
                 console.log(row)

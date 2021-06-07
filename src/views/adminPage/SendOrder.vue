@@ -228,8 +228,6 @@
                 params.append('token', token)
                 params.append('type', "全部类别")
                 params.append('status', "未派单")
-                params.append('pageNum', 1)
-                params.append('pageSize', that.size)
                 axios.post('/admin/selectOrders', params)
                     .then(function (response) {
                         that.loading = false
