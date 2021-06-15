@@ -137,7 +137,7 @@
                                 @confirm="cancelOrder(scope.row)"
                         >
                             <el-button
-                                    :disabled="scope.row.status=='已完成'||scope.row.status=='管理员已撤单'||scope.row.status=='工人已撤单'||scope.row.status=='用户已撤单'"
+                                    :disabled="scope.row.status=='已完成'||scope.row.status=='管理员已撤单'||scope.row.status=='工人已退单'||scope.row.status=='用户已撤单'"
                                     slot="reference"
                                     icon="el-icon-s-promotion">撤单
                             </el-button>
