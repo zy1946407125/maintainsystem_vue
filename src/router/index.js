@@ -26,6 +26,7 @@ import Dept from "../views/adminPage/Dept";
 import Managers from "../views/adminPage/Managers";
 import SetWarn from "../views/adminPage/SetWarn";
 import Warning from "../views/adminPage/Warning";
+import OrderExcel from "../views/adminPage/OrderExcel";
 
 //维修人员页面
 import WorkerIndex from "../views/workerPage/WorkerIndex";
@@ -95,6 +96,11 @@ const routes = [
                 path: '/admin/order',
                 name: '工单查询',
                 component: Order,
+            },
+            {
+                path: '/admin/orderExcel',
+                name: '工单导出',
+                component: OrderExcel,
             },
             {
                 path: '/admin/sendOrder',

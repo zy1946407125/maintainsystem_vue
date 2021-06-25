@@ -41,6 +41,8 @@
                             <template slot="title"><i class="el-icon-user"></i>工单管理</template>
                             <el-menu-item index="/admin/order" :class="$route.path=='/admin/order'?'is-active':''">工单查询
                             </el-menu-item>
+                            <el-menu-item index="/admin/orderExcel" :class="$route.path=='/admin/orderExcel'?'is-active':''">工单导出
+                            </el-menu-item>
                             <el-menu-item index="/admin/sendOrder"
                                           :class="$route.path=='/admin/sendOrder'?'is-active':''">工单指派
                             </el-menu-item>
