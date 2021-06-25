@@ -36,7 +36,8 @@
                             prefix-icon="el-icon-lock"
                             placeholder="请输入密码"></el-input>
                 </el-form-item>
-
+                <el-checkbox v-model="checked">记住账号信息</el-checkbox>
+                <div style="height: 15px"></div>
                 <el-form-item class="login-button">
                     <el-button type="primary" @click="submitForm('ruleForm')" class="button">登录</el-button>
                 </el-form-item>
@@ -62,6 +63,7 @@
                 }
             };
             return {
+                checked: true,
                 selectedtype: null,
                 type: [{
                     value: 'admin',
@@ -123,6 +125,17 @@
                                                 sessionStorage.setItem('loginState', response.data.status);//存储登录状态
                                                 sessionStorage.setItem('user', JSON.stringify(response.data.user));//存储登录人
                                                 sessionStorage.setItem('token', response.data.token);//存储token
+
+                                                if (that.checked) {
+                                                    localStorage.setItem("phone", that.ruleForm.phone)
+                                                    localStorage.setItem("password", that.ruleForm.password)
+                                                    localStorage.setItem("selectedtype", that.selectedtype)
+                                                }else {
+                                                    localStorage.removeItem("phone")
+                                                    localStorage.removeItem("password")
+                                                    localStorage.removeItem("selectedtype")
+                                                }
+
                                                 var path = "/" + that.selectedtype + "/index"
                                                 that.$router.replace(path)
                                                 break
@@ -147,6 +160,14 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
+        },
+        created() {
+            this.ruleForm.phone = localStorage.getItem("phone")
+            this.ruleForm.password = localStorage.getItem("password")
+            this.selectedtype = localStorage.getItem("selectedtype")
+            console.log(this.ruleForm.phone)
+            console.log(this.ruleForm.password)
+            console.log(this.selectedtype)
         }
     }
 </script>

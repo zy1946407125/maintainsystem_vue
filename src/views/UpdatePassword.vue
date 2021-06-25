@@ -118,6 +118,9 @@
                                     that.$message.success("密码修改成功，请重新登录")
                                     sessionStorage.removeItem("loginState")//清除登录状态
                                     sessionStorage.removeItem("user")
+                                    localStorage.removeItem("phone")
+                                    localStorage.removeItem("password")
+                                    localStorage.removeItem("selectedtype")
                                     that.$router.push('/')//跳转登录页面
                                 } else if (response.data === 0) {
                                     that.$message.error("密码修改失败")

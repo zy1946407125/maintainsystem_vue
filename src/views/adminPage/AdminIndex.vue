@@ -123,6 +123,10 @@
                         sessionStorage.removeItem("user")
                         sessionStorage.removeItem("loginState")
                         sessionStorage.removeItem("token")
+
+                        localStorage.removeItem("phone")
+                        localStorage.removeItem("password")
+                        localStorage.removeItem("selectedtype")
                         that.$message.success("退出成功")
                         that.$router.replace('/')
                     } else {
