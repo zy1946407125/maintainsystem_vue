@@ -100,7 +100,7 @@
             var params = new URLSearchParams()
             params.append('token', token)
 
-            axios.post('/admin/selectWorkers', params)
+            axios.post('/admin/selectWorkers2', params)
                 .then(function (response) {
                     that.loading = false
                     if (response.data.status === 444) {

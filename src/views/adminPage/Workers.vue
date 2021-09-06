@@ -46,6 +46,11 @@
                         width="200">
                 </el-table-column>
                 <el-table-column
+                        prop="status"
+                        label="状态"
+                        width="200">
+                </el-table-column>
+                <el-table-column
                         prop="phone"
                         label="联系方式"
                         width="200">
@@ -54,11 +59,18 @@
                         label="操作"
                         width="200">
                     <template slot-scope="scope">
-                        <el-popconfirm
-                                title="确认删除吗？"
-                                @confirm="del(scope.row)"
+                        <el-popconfirm v-if="scope.row.status==='启用'"
+                                       confirm-button-text='确认禁用'
+                                       title="警告：禁用该维修人员后，其下所有未完成工单将被重置为“未派单”，已完成工单将会保留。同时该账号将无法登录系统。"
+                                       @confirm="disable(scope.row)"
                         >
-                            <el-button slot="reference" icon="el-icon-delete">删除</el-button>
+                            <el-button slot="reference" type="danger">禁用</el-button>
+                        </el-popconfirm>
+                        <el-popconfirm v-if="scope.row.status==='禁用'"
+                                       title="确认启用吗？"
+                                       @confirm="unDisable(scope.row)"
+                        >
+                            <el-button slot="reference" type="success">启用</el-button>
                         </el-popconfirm>
                     </template>
                 </el-table-column>
@@ -153,10 +165,11 @@
                             that.$message.error("您没有此操作权限")
                         } else {
                             that.tableData = response.data
+                            console.log(that.tableData)
                         }
                     })
             },
-            del(row) {
+            disable(row) {
                 const that = this
                 that.loading = true
                 var token = sessionStorage.getItem("token")
@@ -164,7 +177,7 @@
                 params.append('token', token)
                 params.append('id', row.id)
 
-                axios.post('/superAdmin/deleteWorker', params)
+                axios.post('/superAdmin/disableWorker', params)
                     .then(function (response) {
                         that.loading = false
                         if (response.data.status === 444) {
@@ -173,12 +186,34 @@
                         } else if (response.data.status === 445) {
                             that.$message.error("您没有此操作权限")
                         } else if (response.data === 1) {
-                            that.$message.success("删除成功")
+                            that.$message.success("禁用成功")
                             that.selectWorkers()
-                        } else if (response.data === -1) {
-                            that.$message.error("该维修人员已有工单，无法删除")
-                        } else {
-                            that.$message.error("未知错误")
+                        }else {
+                            that.$message.error("禁用失败")
+                        }
+                    })
+            },
+            unDisable(row) {
+                const that = this
+                that.loading = true
+                var token = sessionStorage.getItem("token")
+                var params = new URLSearchParams()
+                params.append('token', token)
+                params.append('id', row.id)
+
+                axios.post('/superAdmin/unDisableWorker', params)
+                    .then(function (response) {
+                        that.loading = false
+                        if (response.data.status === 444) {
+                            that.$message.error("您的登录信息已过期，请重新登录")
+                            that.$router.replace("/")
+                        } else if (response.data.status === 445) {
+                            that.$message.error("您没有此操作权限")
+                        } else if (response.data === 1) {
+                            that.$message.success("启用成功")
+                            that.selectWorkers()
+                        }else {
+                            that.$message.error("启用失败")
                         }
                     })
             }
