@@ -43,14 +43,26 @@
                         width="200">
                 </el-table-column>
                 <el-table-column
+                        prop="status"
+                        label="状态"
+                        width="200">
+                </el-table-column>
+                <el-table-column
                         label="操作"
                         width="200">
                     <template slot-scope="scope">
-                        <el-popconfirm
-                                title="确认删除吗？"
-                                @confirm="del(scope.row)"
+                        <el-popconfirm v-if="scope.row.status==='启用'"
+                                       confirm-button-text='确认禁用'
+                                       title="警告：禁用该用户后，该账号将无法登录系统。"
+                                       @confirm="disable(scope.row)"
                         >
-                            <el-button slot="reference" icon="el-icon-delete">删除</el-button>
+                            <el-button slot="reference" type="danger">禁用</el-button>
+                        </el-popconfirm>
+                        <el-popconfirm v-if="scope.row.status==='禁用'"
+                                       title="确认启用吗？"
+                                       @confirm="unDisable(scope.row)"
+                        >
+                            <el-button slot="reference" type="success">启用</el-button>
                         </el-popconfirm>
                     </template>
                 </el-table-column>
@@ -125,14 +137,15 @@
                         }
                     })
             },
-            del(row) {
+            disable(row) {
                 const that = this
                 that.loading = true
                 var token = sessionStorage.getItem("token")
                 var params = new URLSearchParams()
                 params.append('token', token)
                 params.append('id', row.id)
-                axios.post('/manager/deleteDeptUser', params)
+
+                axios.post('/manager/disableUser', params)
                     .then(function (response) {
                         that.loading = false
                         if (response.data.status === 444) {
@@ -140,13 +153,55 @@
                             that.$router.replace("/")
                         } else if (response.data.status === 445) {
                             that.$message.error("您没有此操作权限")
+                        } else if (response.data === 101) {
+                            that.$message.error("非法禁用管理员")
+                        } else if (response.data === 102) {
+                            that.$message.error("非法禁用维修人员")
+                        } else if (response.data === 103) {
+                            that.$message.error("非法禁用部门负责人")
+                        } else if (response.data === 104) {
+                            that.$message.error("非法禁用非本系部人员")
+                        } else if (response.data === 105) {
+                            that.$message.error("非法禁用本人")
                         } else if (response.data === 1) {
-                            that.$message.success("删除成功")
-                            that.selectUsersByDept()
-                        } else if (response.data === -1) {
-                            that.$message.error("该用户存在工单，无法删除")
+                            that.$message.success("禁用成功")
+                            // that.selectWorkers()
+                            row.status = "禁用"
                         } else {
-                            that.$message.error("删除失败")
+                            that.$message.error("禁用失败")
+                        }
+                    })
+            },
+            unDisable(row) {
+                const that = this
+                that.loading = true
+                var token = sessionStorage.getItem("token")
+                var params = new URLSearchParams()
+                params.append('token', token)
+                params.append('id', row.id)
+
+                axios.post('/manager/unDisableUser', params)
+                    .then(function (response) {
+                        that.loading = false
+                        if (response.data.status === 444) {
+                            that.$message.error("您的登录信息已过期，请重新登录")
+                            that.$router.replace("/")
+                        } else if (response.data.status === 445) {
+                            that.$message.error("您没有此操作权限")
+                        } else if (response.data === 101) {
+                            that.$message.error("非法启用管理员")
+                        } else if (response.data === 102) {
+                            that.$message.error("非法启用维修人员")
+                        } else if (response.data === 103) {
+                            that.$message.error("非法启用部门负责人")
+                        } else if (response.data === 104) {
+                            that.$message.error("非法启用非本系部人员")
+                        } else if (response.data === 1) {
+                            that.$message.success("启用成功")
+                            // that.selectWorkers()
+                            row.status = "启用"
+                        } else {
+                            that.$message.error("启用失败")
                         }
                     })
             }

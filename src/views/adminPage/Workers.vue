@@ -188,7 +188,7 @@
                         } else if (response.data === 1) {
                             that.$message.success("禁用成功")
                             that.selectWorkers()
-                        }else {
+                        } else {
                             that.$message.error("禁用失败")
                         }
                     })
@@ -212,7 +212,7 @@
                         } else if (response.data === 1) {
                             that.$message.success("启用成功")
                             that.selectWorkers()
-                        }else {
+                        } else {
                             that.$message.error("启用失败")
                         }
                     })
